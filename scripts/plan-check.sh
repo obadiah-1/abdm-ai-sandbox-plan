@@ -42,9 +42,27 @@ for s in $(sed -n 's/^    "\([a-z-]*\)".*/\1/p' manifest.json); do
   fi
 done
 
-# 3. every plan#id cited anywhere in the plugin exists in the plan
+# 3. the gantt generator is built from that version too. Its TASKS table is
+#    compiled from plan#p8-schedule, so a schedule change that misses it ships a
+#    gantt partners read as current.
+g=gantt/build_gantt.py
+if [ ! -f "$g" ]; then
+  echo "warn $g missing, no gantt to check"
+else
+  gver=$(sed -n 's/^PLAN_VERSION = "\(.*\)"$/\1/p' "$g")
+  if [ "$gver" != "$ver" ]; then
+    echo "FAIL $g stamped PLAN_VERSION '$gver', manifest says '$ver'"
+    echo "  fix: update the TASKS table to match plan#p8-schedule, restamp,"
+    echo "       rebuild with --status and re-import into the shared Sheet."
+    fail=1
+  else
+    echo "ok   gantt built from plan_version $gver"
+  fi
+fi
+
+# 4. every plan#id cited anywhere in the plugin exists in the plan
 #    ponytail: grep, not a markdown parser. Fine while ids are plain anchor tags.
-for id in $(grep -rho 'plan#[a-z0-9.-]*' plugin/ | sed 's/^plan#//' | sort -u); do
+for id in $(grep -rho 'plan#[a-z0-9.-]*' plugin/ gantt/ | sed -e 's/^plan#//' -e 's/\.$//' | sort -u); do
   if grep -q "<a id=\"$id\"></a>" "$plan"; then
     echo "ok   plan#$id resolves"
   else
@@ -53,7 +71,7 @@ for id in $(grep -rho 'plan#[a-z0-9.-]*' plugin/ | sed 's/^plan#//' | sort -u); 
   fi
 done
 
-# 4. the version being replaced was archived, not overwritten
+# 5. the version being replaced was archived, not overwritten
 if [ ! -d plan-history ]; then
   echo "warn plan-history/ missing, nothing archived yet"
 elif [ -z "$(ls -A plan-history 2>/dev/null)" ]; then

@@ -6,9 +6,10 @@ Everything for the ABDM Developer Portal V1 in one place.
 
 - `abdm-v1-phase1-architecture-and-plan.md` the base architecture and execution plan. Four building blocks, the seven principles, the atom model, the OODA skill loops, the update pipeline, the schedule and definition of done.
 - `plan-as-source-addendum.md` how the plan itself becomes a versioned source so the plugin never drifts from it. Read this second; it extends the plan above rather than replacing it.
-- `plugin/` the `abdm-portal` plugin: 16 skills, 6 agents, 11 commands that build and operate the portal. Install this to start work. See `plugin/README.md`.
+- `plugin/` the `abdm-portal` plugin: 17 skills, 6 agents, 12 commands that build and operate the portal. Install this to start work. See `plugin/README.md`.
+- `gantt/` the generator for the shared schedule, and the link to the Google Sheet partners are given. Structure compiles from the plan, live status lives in the Sheet. See `gantt/README.md`.
 - `manifest.json` the plan's version, content hash and the list of skills compiled from it. This is what an installed plugin fetches to notice it is stale.
-- `scripts/plan-check.sh` the gate. Fails when the plan has changed but the manifest or the compiled skills have not.
+- `scripts/plan-check.sh` the gate. Fails when the plan has changed but the manifest, the compiled skills or the gantt generator have not.
 - `plan-history/` superseded versions of the plan, never deleted, one file per `plan_version`.
 
 ## Install the plugin
@@ -27,7 +28,7 @@ If the commands do not appear, restart Claude Code. Components load at startup.
 
 ## What you get
 
-Eleven commands:
+Twelve commands:
 
 | Command | Does |
 |---|---|
@@ -38,12 +39,13 @@ Eleven commands:
 | `/docs-publish [--preview\|--check]` | Generate navigation, preview or publish the Scalar site |
 | `/eval-run [<n>] [--record]` | The six eval tasks, scored against atom exit conditions |
 | `/firstday-test [--prepare\|--score]` | Set up, run and score the first-day developer test |
+| `/gantt-update [--read\|--propose\|--rebuild]` | Propose the gantt status changes landed work justifies, apply on approval |
 | `/plan-check [--diff\|--breaking]` | Are these skills built from the current plan |
 | `/skills-compile [<skill>\|--trace <skill>]` | Compile atoms into skills and report what fed what |
 | `/source-check [<source>\|--dry-run]` | Sweep NHA sources and the plan, open a pull request on a change |
 | `/standup [--checkpoint\|--done]` | What moved, what is blocked, what ships next |
 
-Plus 16 skills and 6 agents. Start from the `abdm-portal-index` skill, which routes to the rest. Full inventory and token cost:
+Plus 17 skills and 6 agents. Start from the `abdm-portal-index` skill, which routes to the rest. Full inventory and token cost:
 
 ```sh
 claude plugin details abdm-portal
@@ -87,7 +89,7 @@ The plan is the fundamental source. Every change to it must reach the plugin, so
 
 1. Edit `abdm-v1-phase1-architecture-and-plan.md`
 2. Copy the version you replaced to `plan-history/plan-<old version>.md`
-3. Rebuild the four plan-derived skills and restamp `plan_version` in each one's frontmatter
+3. Rebuild the four plan-derived skills and restamp `plan_version` in each one's frontmatter. If the schedule moved, update the `TASKS` table and `PLAN_VERSION` in `gantt/build_gantt.py` too
 4. Bump `plan_version` and `plan_hash` in `manifest.json`, and set `breaking: true` if a principle, a date, an owner or a definition of done criterion changed
 5. Run the gate, which fails until 3 and 4 are both done
 

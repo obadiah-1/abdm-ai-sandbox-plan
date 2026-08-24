@@ -41,6 +41,7 @@ The manifest names no `skills`, `agents` or `commands` paths on purpose. The def
 - `portal-planning` the schedule, the two-day increments, the definition of done, ownership split
 - `dpg-governance` the FOSS and no-Eka-dependency constraint, and how to check it holds
 - `plan-sync` how the plan works as a versioned source, and the staleness check
+- `gantt-sync` the shared gantt in Google Sheets: what is a formula, what counts as done, the approval gate before any write
 
 The first three are compiled from `abdm-v1-phase1-architecture-and-plan.md` in the repo root, along with the index. Do not edit them by hand. Each carries a `plan_version` stamp in its frontmatter saying which version of the plan it was built from.
 
@@ -70,13 +71,13 @@ Sub-agent definitions live in `agents/`. They are dispatched for work that is lo
 
 ## Commands
 
-Commands in `commands/` are the day-to-day verbs: create an atom, verify one, lint the Catalogue, compile skills, publish docs, check sources, run the eval set, run the first-day test, produce the standup, and check the plan version.
+Commands in `commands/` are the day-to-day verbs: create an atom, verify one, lint the Catalogue, compile skills, publish docs, check sources, run the eval set, run the first-day test, produce the standup, check the plan version, and update the shared gantt.
 
 ## Keeping up with the plan
 
 The architecture and execution plan lives at [`abdm-v1-phase1-architecture-and-plan.md`](https://github.com/obadiah-1/abdm-ai-sandbox-plan/blob/main/abdm-v1-phase1-architecture-and-plan.md) in the repo root, one directory above this plugin. Four skills compile from it and are stamped with the `plan_version` they were built from. `manifest.json` at the repo root carries the current version and hash, so an installed plugin can notice it is older than the published plan and say so, without fetching instructions at runtime.
 
-A plan change is not finished until the four skills are rebuilt and restamped. `scripts/plan-check.sh` enforces it: it hashes the plan, compares against the manifest, and fails if either the manifest or any compiled skill is behind. Run `/plan-check` to see where an installed plugin stands, or the script in a checkout.
+A plan change is not finished until the four skills are rebuilt and restamped. `scripts/plan-check.sh` enforces it: it hashes the plan, compares against the manifest, and fails if the manifest, any compiled skill or the gantt generator is behind. Run `/plan-check` to see where an installed plugin stands, or the script in a checkout.
 
 ## The one rule that binds everything
 
