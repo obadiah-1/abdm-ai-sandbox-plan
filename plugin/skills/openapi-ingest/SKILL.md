@@ -1,6 +1,6 @@
 ---
 name: openapi-ingest
-description: How to bring NHA's specifications into the ABDM Catalogue: fetching HIE-CM swagger from the sandbox, hashing and recording sources, cleaning inconsistent files without hiding the change, describing callbacks as OpenAPI 3.1 webhooks inside the module file that owns them, and generating endpoint atom stubs. Use whenever adding a new NHA source, refreshing an existing one, generating endpoint stubs, handling a spec that is broken or incomplete, or deciding how to record a correction to an NHA file.
+description: 'How to bring NHA''s specifications into the ABDM Catalogue: fetching HIE-CM swagger from the sandbox, hashing and recording sources, cleaning inconsistent files without hiding the change, describing callbacks as OpenAPI 3.1 webhooks inside the module file that owns them, and generating endpoint atom stubs. Use whenever adding a new NHA source, refreshing an existing one, generating endpoint stubs, handling a spec that is broken or incomplete, or deciding how to record a correction to an NHA file.'
 ---
 
 # OpenAPI Ingest

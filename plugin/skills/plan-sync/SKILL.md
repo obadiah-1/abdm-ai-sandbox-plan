@@ -1,6 +1,6 @@
 ---
 name: plan-sync
-description: How the ABDM Developer Portal architecture and execution plan works as a versioned source: where it lives, how it compiles into the plan-derived skills, the manifest staleness check, and what to do when the installed plan version is older than the published one. Use whenever the plan changes, when a skill's plan_version does not match the manifest, when someone asks whether the plugin is working from the current plan, when editing the plan itself, or when deciding whether a question should be answered from a compiled skill or by retrieving the plan.
+description: 'How the ABDM Developer Portal architecture and execution plan works as a versioned source: where it lives, how it compiles into the plan-derived skills, the manifest staleness check, and what to do when the installed plan version is older than the published one. Use whenever the plan changes, when a skill''s plan_version does not match the manifest, when someone asks whether the plugin is working from the current plan, when editing the plan itself, or when deciding whether a question should be answered from a compiled skill or by retrieving the plan.'
 ---
 
 # Plan Sync

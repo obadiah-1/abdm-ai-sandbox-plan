@@ -1,6 +1,6 @@
 ---
 description: Run every mechanised check against the ABDM Catalogue and explain each failure.
-argument-hint: [--atoms|--oas|--compiled|--fix] [path]
+argument-hint: '[--atoms|--oas|--compiled|--fix] [path]'
 ---
 
 Run every mechanised check against the ABDM Catalogue and explain each failure. Load the `catalogue-linting` skill for the rule reference. Flags and paths: `$ARGUMENTS`. With no arguments, run everything.

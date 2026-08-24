@@ -1,6 +1,6 @@
 ---
 description: Read the shared ABDM Developer Portal gantt, propose the status changes that landed work justifies, and apply them once approved.
-argument-hint: [--read|--propose|--rebuild]
+argument-hint: '[--read|--propose|--rebuild]'
 ---
 
 Update the shared gantt. Load the `gantt-sync` skill for the rules, the cell map

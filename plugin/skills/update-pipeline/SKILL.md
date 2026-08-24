@@ -1,6 +1,6 @@
 ---
 name: update-pipeline
-description: The ABDM Catalogue update pipeline that keeps skills following the docs: the daily source watcher, hash diffing, the pull request bot, the human review gate, and the build that runs on merge to publish docs, recompile skills, regenerate the index and llms.txt, and bump the catalogue version. Use whenever working on the watcher or CI, when a source change needs handling, when explaining how skills stay current, or when someone proposes a retrieval-based approach to keeping skills fresh.
+description: 'The ABDM Catalogue update pipeline that keeps skills following the docs: the daily source watcher, hash diffing, the pull request bot, the human review gate, and the build that runs on merge to publish docs, recompile skills, regenerate the index and llms.txt, and bump the catalogue version. Use whenever working on the watcher or CI, when a source change needs handling, when explaining how skills stay current, or when someone proposes a retrieval-based approach to keeping skills fresh.'
 ---
 
 # Update Pipeline

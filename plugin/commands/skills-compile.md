@@ -1,6 +1,6 @@
 ---
 description: Compile ABDM Catalogue atoms into agent skills, validate the output, and report which atoms fed which skill.
-argument-hint: [<skill>|--milestone <M>|--validate-only|--trace <skill>]
+argument-hint: '[<skill>|--milestone <M>|--validate-only|--trace <skill>]'
 ---
 
 Compile ABDM Catalogue atoms into skills. Load the `skill-compiler` skill and follow its pipeline. Target: `$ARGUMENTS`. With no arguments, compile everything.

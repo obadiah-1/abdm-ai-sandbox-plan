@@ -1,6 +1,6 @@
 ---
 name: atom-authoring
-description: How to write one atom for the ABDM Catalogue: the mandatory frontmatter schema, the ten atom types, the five dummy-proof body sections, structured fenced blocks, and the related graph. Use whenever creating or editing a unit of Catalogue knowledge, whether it is a concept, flow, endpoint, callback, error, test, decision, glossary, FHIR or sandbox page. Also use when someone asks how to document an NHA endpoint, what fields a page needs, how to link pages together, or why an atom failed schema lint.
+description: 'How to write one atom for the ABDM Catalogue: the mandatory frontmatter schema, the ten atom types, the five dummy-proof body sections, structured fenced blocks, and the related graph. Use whenever creating or editing a unit of Catalogue knowledge, whether it is a concept, flow, endpoint, callback, error, test, decision, glossary, FHIR or sandbox page. Also use when someone asks how to document an NHA endpoint, what fields a page needs, how to link pages together, or why an atom failed schema lint.'
 ---
 
 # Atom Authoring
