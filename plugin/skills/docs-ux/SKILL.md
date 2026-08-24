@@ -84,6 +84,29 @@ Every module (M1, M2, M3) walks the same ladder, in this order. The compiler and
 
 The ladder is chronological on purpose. A developer reading top to bottom is also integrating in the right order.
 
+## Narrative first, navigation second
+
+The sidebar is the fallback for a reader who already knows where they are
+going. The primary path is the prose, and it moves the reader forward:
+
+- A module's overview is a hub. Three sentences of what the module is, then
+  two or three large ways in as cards, written as the reader's own intent:
+  "See the user journey", "Let's build", "When it goes wrong". Not a wall
+  of links, not a table of contents restated.
+- Every ladder page ends by naming the single next rung as a card, on top
+  of the theme's previous and next pagination. The journey ends with
+  "Ready to build?", the API rules end with the call sequence, the
+  sequence ends with the errors, the errors end with support.
+- The agent skill install CTA lives at the hub's build moment, presented
+  beside the manual path as the two ways to build. It is never filed
+  inside the API section: nobody looks for an agent skill under APIs.
+- Endpoint lists stay collapsed in the sidebar so the ladder is what the
+  tree shows first. The full endpoint tree is one click away, not the
+  first thing a new reader must parse.
+
+M1 is the template. A new module copies its hub shape and its next-rung
+chain before it copies anything else.
+
 ## Navigation is still generated
 
 The tab and sidebar tree above is what the navigation generator targets. It is produced from atom frontmatter, never hand-edited (`scalar-docs`). If a page renders in the wrong place, fix its frontmatter, not the config.
