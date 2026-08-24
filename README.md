@@ -17,21 +17,62 @@ This repo is a Claude Code marketplace. Two commands:
 
 ```sh
 claude plugin marketplace add obadiah-1/abdm-ai-sandbox-plan
+```
+
+```sh
 claude plugin install abdm-portal@abdm-portal
 ```
 
-Restart Claude Code afterwards. You get 16 skills, 6 agents and 11 commands (`/standup`, `/catalogue-lint`, `/atom-new`, `/plan-check` and the rest). `claude plugin details abdm-portal` lists them with their token cost.
+If the commands do not appear, restart Claude Code. Components load at startup.
 
-Working on the plugin itself? Point the marketplace at your checkout instead, and re-run `claude plugin marketplace update abdm-portal` after each change:
+## What you get
+
+Eleven commands:
+
+| Command | Does |
+|---|---|
+| `/atom-new <type> <gateway> <slug>` | Scaffold an atom with valid frontmatter and the five mandatory sections |
+| `/atom-verify <atom-id>` | Run an atom against the sandbox and record what came back |
+| `/catalogue-lint [--atoms\|--oas\|--compiled\|--fix]` | Every mechanised check, locally, before you push |
+| `/catalogue-status [--gaps\|--stale]` | Coverage and verification state by gateway, milestone and type |
+| `/docs-publish [--preview\|--check]` | Generate navigation, preview or publish the Scalar site |
+| `/eval-run [<n>] [--record]` | The six eval tasks, scored against atom exit conditions |
+| `/firstday-test [--prepare\|--score]` | Set up, run and score the first-day developer test |
+| `/plan-check [--diff\|--breaking]` | Are these skills built from the current plan |
+| `/skills-compile [<skill>\|--trace <skill>]` | Compile atoms into skills and report what fed what |
+| `/source-check [<source>\|--dry-run]` | Sweep NHA sources and the plan, open a pull request on a change |
+| `/standup [--checkpoint\|--done]` | What moved, what is blocked, what ships next |
+
+Plus 16 skills and 6 agents. Start from the `abdm-portal-index` skill, which routes to the rest. Full inventory and token cost:
+
+```sh
+claude plugin details abdm-portal
+```
+
+## Working on the plugin
+
+Point the marketplace at your checkout instead of GitHub:
 
 ```sh
 claude plugin marketplace add ./
 ```
 
-Before committing a plugin change:
+Re-run this after each change, then restart:
+
+```sh
+claude plugin marketplace update abdm-portal
+```
+
+Before committing any plugin change, because a malformed manifest fails the whole plugin rather than the part that is wrong:
 
 ```sh
 claude plugin validate ./plugin --strict
+```
+
+To remove it:
+
+```sh
+claude plugin uninstall abdm-portal
 ```
 
 ## Reading order
