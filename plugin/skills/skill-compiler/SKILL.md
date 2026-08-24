@@ -130,5 +130,5 @@ This constrains the templates: no skill may depend on another skill being loaded
 
 - Writing loops properly: `ooda-skill-authoring`
 - The atoms that feed it: `atom-authoring`
-- The checks: `catalogue-lint`
+- The checks: `catalogue-linting`
 - Run it: `/skills-compile`

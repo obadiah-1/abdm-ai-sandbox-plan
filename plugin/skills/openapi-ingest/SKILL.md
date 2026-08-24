@@ -99,5 +99,5 @@ Ingestion produces stubs, not documentation. The handoff is explicit:
 
 - What the stubs become: `atom-authoring`
 - Watching for changes: `update-pipeline`
-- Fixing spec lint failures: `catalogue-lint`
+- Fixing spec lint failures: `catalogue-linting`
 - Manual refresh: `/source-check`

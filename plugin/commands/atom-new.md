@@ -1,9 +1,9 @@
 ---
-name: atom-new
 description: Scaffold a new ABDM Catalogue atom with valid frontmatter and the five mandatory section headings.
+argument-hint: <type> <gateway> <slug>
 ---
 
-# /atom-new
+Scaffold a new ABDM Catalogue atom. Load the `atom-authoring` skill and follow the procedure below. Arguments: `$ARGUMENTS`, read as type, gateway and slug. If any of the three is missing, ask for it before writing anything.
 
 Create a new atom, correctly shaped, ready to write.
 

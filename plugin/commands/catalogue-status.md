@@ -1,9 +1,9 @@
 ---
-name: catalogue-status
 description: Coverage and verification state of the ABDM Catalogue by gateway, milestone and atom type.
+argument-hint: [--gateway <g>|--milestone <M>|--stale|--gaps]
 ---
 
-# /catalogue-status
+Report where the ABDM Catalogue actually is. Filters: `$ARGUMENTS`. With no arguments, report everything.
 
 Where the Catalogue actually is, as opposed to where it feels like it is.
 

@@ -6,17 +6,28 @@ This plugin does not integrate anyone with ABDM. It builds the thing that does. 
 
 ## Install
 
-Install the whole plugin:
+The plan repo is itself a marketplace, so this is two commands:
 
-```
-/plugin install abdm-portal
+```sh
+claude plugin marketplace add obadiah-1/abdm-ai-sandbox-plan
+claude plugin install abdm-portal@abdm-portal
 ```
 
-Or install one skill at a time. Start with `abdm-portal-index`, which routes to everything else:
+Restart Claude Code afterwards. `claude plugin details abdm-portal` lists every component and its token cost.
 
+Working on the plugin itself: add your checkout as the marketplace instead, and re-run `claude plugin marketplace update abdm-portal` after each change.
+
+## Two rules the manifest will not forgive
+
+**Validate before committing.** A malformed `plugin.json` fails the whole plugin, not the part that is wrong, and nothing loads:
+
+```sh
+claude plugin validate ./plugin --strict
 ```
-skills install abdm-portal-index
-```
+
+The manifest names no `skills`, `agents` or `commands` paths on purpose. The default layout is discovered automatically, and the `agents` key does not take a directory string.
+
+**Skills and commands share one namespace.** No skill may have the same name as a command, or one shadows the other. That is why the lint rules live in the `catalogue-linting` skill while `/catalogue-lint` runs them.
 
 ## What is in here
 
@@ -38,7 +49,7 @@ The first three are compiled from `abdm-v1-phase1-architecture-and-plan.md` in t
 - `atom-authoring` how to write one atom: frontmatter schema and the five dummy-proof sections
 - `writing-guide` the binding prose rules, including no em dashes
 - `atom-review` how to review an atom before it can be merged
-- `catalogue-lint` the CI rules and how to fix each failure
+- `catalogue-linting` the CI rules and how to fix each failure
 - `openapi-ingest` pulling NHA's swagger and GitHub sources in, hashing them, describing callbacks as AsyncAPI
 
 **Rendering and compiling**

@@ -128,6 +128,6 @@ Read the file for the type you are writing: `references/atom-types.md`.
 
 - The prose rules: `writing-guide`
 - Reviewing before merge: `atom-review`
-- Fixing lint failures: `catalogue-lint`
+- Fixing lint failures: `catalogue-linting`
 - Where atoms come from: `openapi-ingest`
 - Scaffold a new one: `/atom-new`

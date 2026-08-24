@@ -1,9 +1,9 @@
 ---
-name: source-check
 description: Fetch and hash NHA sources, diff against stored hashes, and open a pull request flipping affected ABDM Catalogue atoms to stale.
+argument-hint: [<source>|--hash <url>|--dry-run]
 ---
 
-# /source-check
+Sweep the configured ABDM sources for changes. Load the `update-pipeline` skill. Target: `$ARGUMENTS`. With no arguments, check every configured source, including the plan.
 
 The manual version of what the watcher does daily. Run it before a release, or when NHA has announced something.
 

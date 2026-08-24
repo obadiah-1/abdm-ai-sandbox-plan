@@ -1,9 +1,9 @@
 ---
-name: catalogue-lint
 description: Run every mechanised check against the ABDM Catalogue and explain each failure.
+argument-hint: [--atoms|--oas|--compiled|--fix] [path]
 ---
 
-# /catalogue-lint
+Run every mechanised check against the ABDM Catalogue and explain each failure. Load the `catalogue-linting` skill for the rule reference. Flags and paths: `$ARGUMENTS`. With no arguments, run everything.
 
 Everything CI runs, locally, before you push.
 
@@ -35,4 +35,4 @@ Two failures deserve special attention when you see them:
 - `schema.verified-evidence` means an atom claims verification with no recorded response. Treat as a blocker regardless of what else is red.
 - `compile.identifier-diff` means the prose pass invented something. Regenerate. Do not add the token to the Catalogue to clear the build.
 
-Full rule reference and fixes: `catalogue-lint` skill.
+Full rule reference and fixes: `catalogue-linting` skill.

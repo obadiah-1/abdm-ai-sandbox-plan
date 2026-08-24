@@ -1,5 +1,5 @@
 ---
-name: catalogue-lint
+name: catalogue-linting
 description: Every mechanised check that runs against the ABDM Catalogue in CI, what each failure message means, and how to fix it. Covers schema validation, the five mandatory sections, the em dash block, link and id resolution, source hash presence, OpenAPI Spectral linting, and the identifier diff that stops compiled skills inventing facts. Use whenever CI is red on the Catalogue, a build fails, someone asks why their atom was rejected, or when adding or changing a lint rule.
 ---
 

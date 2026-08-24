@@ -89,4 +89,4 @@ Usually the underlying need is real and generic. "We need to document how to reg
 
 - Where new things belong: `portal-architecture`
 - Content portability rules: `scalar-docs`
-- The lint rules: `catalogue-lint`
+- The lint rules: `catalogue-linting`

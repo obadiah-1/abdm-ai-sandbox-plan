@@ -29,7 +29,7 @@ The only skill an agent needs loaded to know what else exists. Read the decision
    - Creating a new atom: `atom-authoring`, then `/atom-new`
    - Getting the prose right, or a lint failure about style: `writing-guide`
    - Reviewing someone else's atom before merge: `atom-review`
-   - A CI failure on the Catalogue: `catalogue-lint`
+   - A CI failure on the Catalogue: `catalogue-linting`
    - Pulling in NHA swagger, GitHub specs or callback definitions: `openapi-ingest`
    - Marking an atom verified after running it: `/atom-verify`
 
@@ -68,7 +68,7 @@ Depth is not uniform, and every answer must say so. Read the depth label before 
 | `atom-authoring` | build | Writing a new unit of knowledge |
 | `writing-guide` | build | Prose quality, style lint failures |
 | `atom-review` | test | Reviewing before merge |
-| `catalogue-lint` | debug | CI is red on the Catalogue |
+| `catalogue-linting` | debug | CI is red on the Catalogue |
 | `openapi-ingest` | build | Bringing an NHA source in |
 | `scalar-docs` | build | The docs site itself |
 | `skill-compiler` | build | The atoms to skills pipeline |

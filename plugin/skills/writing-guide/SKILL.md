@@ -90,4 +90,4 @@ Every atom is read by a person and parsed by a compiler. This does not mean writ
 
 - Structure and schema: `atom-authoring`
 - Review process: `atom-review`
-- Mechanised checks: `catalogue-lint`
+- Mechanised checks: `catalogue-linting`

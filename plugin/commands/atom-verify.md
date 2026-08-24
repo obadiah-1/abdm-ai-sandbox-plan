@@ -1,9 +1,9 @@
 ---
-name: atom-verify
 description: Run an ABDM endpoint or flow atom against the sandbox and record the observed response, setting verification status honestly.
+argument-hint: <atom-id> | --milestone <M> | --stale
 ---
 
-# /atom-verify
+Verify an ABDM atom against the sandbox and record what you observed. Load the `portal-proof` skill and follow the procedure below. Target: `$ARGUMENTS`. If empty, ask which atom, milestone or selector to verify.
 
 Prove an atom by running it. The only path to `verified.status: verified`.
 

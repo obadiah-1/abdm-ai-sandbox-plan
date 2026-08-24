@@ -1,9 +1,9 @@
 ---
-name: docs-publish
 description: Generate navigation, preview and publish the Scalar documentation site for the ABDM Catalogue.
+argument-hint: [--preview|--nav-only|--check]
 ---
 
-# /docs-publish
+Publish the ABDM docs site. Load the `scalar-docs` skill and follow the procedure below. Mode: `$ARGUMENTS`. Default to `--preview` unless the user explicitly asked to publish live, and confirm before any live publish.
 
 ## Usage
 

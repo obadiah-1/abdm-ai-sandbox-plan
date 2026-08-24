@@ -1,9 +1,9 @@
 ---
-name: standup
 description: Produce the ABDM Developer Portal standup: what moved, what is blocked, what ships at the next checkpoint.
+argument-hint: [--checkpoint|--done]
 ---
 
-# /standup
+Produce the ABDM Developer Portal standup. Load the `portal-planning` skill for the schedule and the definition of done. Scope: `$ARGUMENTS`. With no arguments, report since the last standup.
 
 ## Usage
 

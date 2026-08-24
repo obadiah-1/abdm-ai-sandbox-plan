@@ -100,5 +100,5 @@ This: "Section 4 says the call returns 200. For this endpoint 200 means the gate
 
 - What the atom should contain: `atom-authoring`
 - Prose rules: `writing-guide`
-- Mechanised checks that run before you review: `catalogue-lint`
+- Mechanised checks that run before you review: `catalogue-linting`
 - Verifying against sandbox: `/atom-verify`

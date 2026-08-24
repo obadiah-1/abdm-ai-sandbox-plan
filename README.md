@@ -11,6 +11,29 @@ Everything for the ABDM Developer Portal V1 in one place.
 - `scripts/plan-check.sh` the gate. Fails when the plan has changed but the manifest or the compiled skills have not.
 - `plan-history/` superseded versions of the plan, never deleted, one file per `plan_version`.
 
+## Install the plugin
+
+This repo is a Claude Code marketplace. Two commands:
+
+```sh
+claude plugin marketplace add obadiah-1/abdm-ai-sandbox-plan
+claude plugin install abdm-portal@abdm-portal
+```
+
+Restart Claude Code afterwards. You get 16 skills, 6 agents and 11 commands (`/standup`, `/catalogue-lint`, `/atom-new`, `/plan-check` and the rest). `claude plugin details abdm-portal` lists them with their token cost.
+
+Working on the plugin itself? Point the marketplace at your checkout instead, and re-run `claude plugin marketplace update abdm-portal` after each change:
+
+```sh
+claude plugin marketplace add ./
+```
+
+Before committing a plugin change:
+
+```sh
+claude plugin validate ./plugin --strict
+```
+
 ## Reading order
 
 1. `abdm-v1-phase1-architecture-and-plan.md`, for what is being built and why

@@ -125,5 +125,5 @@ A source with no named reviewer will generate pull requests nobody merges, and t
 
 - Bringing sources in the first time: `openapi-ingest`
 - What gets rebuilt: `skill-compiler`, `scalar-docs`
-- The checks that run: `catalogue-lint`
+- The checks that run: `catalogue-linting`
 - Run a sweep: `/source-check`

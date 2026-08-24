@@ -1,9 +1,9 @@
 ---
-name: eval-run
 description: Run the six ABDM Developer Portal eval tasks against the sandbox and record the score.
+argument-hint: [<n>] [--record] [--since <version>]
 ---
 
-# /eval-run
+Run the ABDM Developer Portal eval tasks and score them. Load the `portal-proof` skill. Selection: `$ARGUMENTS`. With no arguments, run all six.
 
 Measures whether an agent can do the work using only the plugin and the MCP.
 

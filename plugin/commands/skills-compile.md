@@ -1,9 +1,9 @@
 ---
-name: skills-compile
 description: Compile ABDM Catalogue atoms into agent skills, validate the output, and report which atoms fed which skill.
+argument-hint: [<skill>|--milestone <M>|--validate-only|--trace <skill>]
 ---
 
-# /skills-compile
+Compile ABDM Catalogue atoms into skills. Load the `skill-compiler` skill and follow its pipeline. Target: `$ARGUMENTS`. With no arguments, compile everything.
 
 Run the build that produces the skills, the index and the plugin.
 

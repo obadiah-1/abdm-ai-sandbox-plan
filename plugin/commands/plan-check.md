@@ -1,9 +1,9 @@
 ---
-name: plan-check
 description: Compare the installed plan version against the published manifest and report drift in the ABDM Developer Portal plan.
+argument-hint: [--diff|--breaking|--offline]
 ---
 
-# /plan-check
+Report whether the loaded plan-derived skills are built from the current plan. Load the `plan-sync` skill for the mechanism. Mode: `$ARGUMENTS`. In a checkout of the plan repo, run `./scripts/plan-check.sh` and report its output rather than fetching.
 
 Answers one question: are these skills built from the current plan?
 
