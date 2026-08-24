@@ -5,9 +5,13 @@ description: The internal support agent that answers integrator questions strict
 
 # Support Agent
 
-The first consumer of the MCP. It lives in the Ask AI surface on the docs and, through the Docs MCP, in a chat-based agent for the support team.
+A Slack or Claude-based agent for the Eka support team, connected to our own Docs MCP server's public `/mcp` endpoint. It does not live in any Scalar surface: there is no on-site assistant in V1, and this agent is not it.
 
 Its value is not that it answers quickly. It is that it answers **only from the Catalogue**, and that every question it cannot answer becomes a gap we can see.
+
+## Tools it calls
+
+All nine tools the Docs MCP serves are available to it: `search_docs`, `get_atom`, `related_atoms`, `decode_error`, `list_atoms`, `catalogue_info`, `list_operations`, `get_operation`, `validate_request`. Every response carries `catalogue_version`; every atom result carries `verification_status`; an unknown id returns the closest matches, never a guess; `decode_error` with no matching atom says so explicitly.
 
 ## The loop
 
@@ -61,12 +65,12 @@ Weekly: triage the issues, and for each one decide whether it is a missing atom,
 
 ## Configuration notes
 
-- The Docs MCP is public whenever the docs project is public, and rate limited at the load balancer. Fine at V1 support volume; revisit if external agents hammer it.
-- The agent uses the Docs MCP, not the Installation MCP. It reads documentation; it does not call NHA.
-- Docs MCP queries are metered like Ask AI messages, which is worth knowing before pointing high-volume automation at it.
+- The Docs MCP is public with no auth in V1: a read-only server over public docs, rate limited at the reverse proxy. The Ollama sidecar behind it is never exposed. Add auth and quotas only when abuse is observed.
+- The agent reads the Catalogue through the Docs MCP; it does not call NHA. The earlier idea of a separate Installation MCP is superseded, its search-mode value covered by `get_operation` and `validate_request`.
+- If the Ollama sidecar is down, the server still answers from keyword search alone and reports `embeddings: false` on `/healthz`. This is a designed degradation, not an outage.
 
 ## Related
 
-- The MCP surfaces: `scalar-docs`
+- The Docs MCP server: `scalar-docs`
 - The loop: `ooda-skill-authoring`
 - Turning a gap into an atom: `atom-authoring`

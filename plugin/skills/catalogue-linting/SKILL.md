@@ -60,13 +60,13 @@ Run everything locally before pushing: `/catalogue-lint`.
 
 ### OpenAPI rules
 
-Spectral runs over the three specification files.
+Spectral runs over the module specification files under `catalogue/openapi/` (`hiecm-gateway.yaml`, `hiecm-m1.yaml` through `-m4.yaml`).
 
 | Rule | Failure message | Fix |
 |---|---|---|
 | `oas.valid` | Spectral rule violations | Fix in the ingested file, and record the correction in `sources` alongside the original. Never silently edit an NHA file without recording it. |
 | `oas.operation-id` | `operation missing operationId` | Endpoint atom stubs are generated from operation ids. Add one and note the addition as a correction. |
-| `oas.callbacks-asyncapi` | `callback described in OpenAPI, expected AsyncAPI` | Callbacks live in the AsyncAPI file so Scalar renders them properly. |
+| `oas.callbacks-webhooks` | `callback described outside the module's webhooks section` | Callbacks live inside the module spec file that owns them, as OpenAPI 3.1 `webhooks` entries, per `CONVENTIONS.md`, so Scalar renders them from the same reference. There is no AsyncAPI file anywhere in the stack. |
 
 ### Compiled output rules
 

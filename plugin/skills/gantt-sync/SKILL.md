@@ -73,7 +73,7 @@ that justifies it. Nothing is applied at this stage.
 Row  WBS   Task                    Cell  From          To            Because
 10   1.1   Atom schema and lint    H10   0%            100%          schema.json merged, lint rule live in CI
 10   1.1   Atom schema and lint    I10   Not started   Done
-11   1.2   Ingest HIE-CM specs     H11   0%            50%           hiecm-v3.yaml in, callbacks AsyncAPI outstanding
+11   1.2   Ingest HIE-CM specs     H11   0%            50%           hiecm-v3.yaml in, callbacks as webhooks outstanding
 11   1.2   Ingest HIE-CM specs     I11   Not started   In progress
 23   3.2   Build index and plugin  I23   Not started   Blocked       waiting on 3.1, compiler not passing validation
 ```
@@ -88,7 +88,7 @@ finished. The test is external.
 | Stream | Done means |
 |---|---|
 | Catalogue | Atoms merged, lint passing, and for M1 to M3 endpoint atoms, a curl run against sandbox with the response recorded |
-| Scalar | The page or surface is reachable and behaves, not that the config is written |
+| Site and MCP | The page or surface is reachable and behaves, not that the config is written |
 | Skills | The skill compiles, validates and installs, not that the template exists |
 | Pipeline | It has run once for real, not that it is deployed |
 | Proof | The score is recorded, not that the harness runs |

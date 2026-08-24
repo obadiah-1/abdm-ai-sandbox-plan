@@ -28,7 +28,7 @@ from openpyxl.utils import get_column_letter as L
 from openpyxl.worksheet.datavalidation import DataValidation
 from openpyxl.worksheet.table import Table, TableStyleInfo
 
-PLAN_VERSION = "2026.08.24-3"
+PLAN_VERSION = "2026.08.24-4"
 SHEET_URL = "https://docs.google.com/spreadsheets/d/17OkDm9-wUSgMZ5G2Tegv69-MP-aXTdjjjN37t4-HxSE/edit"
 
 NAVY, BAND, PLAN = "14274E", "E8EDF7", "A9C3F0"
@@ -53,11 +53,11 @@ TASKS = [
     ("1.4", "Write M2 M3 atoms",         "Catalogue", "Both",      date(2026, 8, 28), 3),
     ("1.5", "Write shared atoms",        "Catalogue", "Both",      date(2026, 8, 31), 2),
     ("1.6", "Verify and fix gaps",       "Catalogue", "Both",      date(2026, 9, 1),  2),
-    ("2",   "Scalar",                    "Scalar",    "Shyamjith", None,            None),
-    ("2.1", "Set up Scalar site",        "Scalar",    "Shyamjith", date(2026, 8, 25), 2),
-    ("2.2", "Generate nav and versions", "Scalar",    "Shyamjith", date(2026, 8, 27), 1),
-    ("2.3", "Turn on MCP servers",       "Scalar",    "Shyamjith", date(2026, 8, 28), 1),
-    ("2.4", "Wire preview and publish",  "Scalar",    "Shyamjith", date(2026, 8, 29), 1),
+    ("2",   "Site and MCP",              "Site and MCP", "Shyamjith", None,            None),
+    ("2.1", "Set up self hosted site",   "Site and MCP", "Shyamjith", date(2026, 8, 25), 2),
+    ("2.2", "Module specs and nav",      "Site and MCP", "Shyamjith", date(2026, 8, 27), 1),
+    ("2.3", "Build Docs MCP server",     "Site and MCP", "Shyamjith", date(2026, 8, 28), 1),
+    ("2.4", "Wire deploys and publish",  "Site and MCP", "Shyamjith", date(2026, 8, 29), 1),
     ("3",   "Skills",                    "Skills",    "Both",      None,            None),
     ("3.1", "Build skill compiler",      "Skills",    "Shyamjith", date(2026, 8, 27), 3),
     ("3.2", "Build index and plugin",    "Skills",    "Shyamjith", date(2026, 8, 30), 1),
@@ -75,7 +75,7 @@ TASKS = [
 ]
 
 CHECKPOINTS = [
-    (date(2026, 8, 26), "Open a Scalar site with the NHA HIE-CM OpenAPI reference rendered and searchable, plus the sandbox registration guide.", "Shyamjith"),
+    (date(2026, 8, 26), "Open the docs site with the NHA HIE-CM OpenAPI references rendered and searchable, plus the sandbox registration guide.", "Shyamjith"),
     (date(2026, 8, 28), "Read dummy proof M1 pages, run the M1 curls against sandbox, and ask the Docs MCP questions.", "Both"),
     (date(2026, 8, 30), "Install the abdm-index and hiecm-m1 skills into Claude Code and scaffold M1.", "Shyamjith"),
     (date(2026, 9, 2),  "Read M2 and M3 at the same depth, install the full plugin, and see the phase scope stated on every landing page.", "Both"),
@@ -88,7 +88,7 @@ DONE_CRITERIA = [
     (3,  "Every NHA functional test case for M1 to M3 exists as a test atom and is referenced by a test skill.", "Product"),
     (4,  "All skills compile, validate and install individually into Claude Code. The plugin installs as one unit.", "Shyamjith"),
     (5,  "The abdm-index skill is generated from the graph and lists every skill, agent and tool.", "Shyamjith"),
-    (6,  "Scalar site live on a custom domain with versions, search, Ask AI, Docs MCP and Installation MCP in search mode.", "Shyamjith"),
+    (6,  "Docs site live with search and the module references. Docs MCP deployed with nine tools over the current snapshot.", "Shyamjith"),
     (7,  "The watcher has opened at least one real pull request from a real NHA source change.", "Shyamjith"),
     (8,  "The support agent answered the six eval tasks from the Catalogue, citing atom ids, with the score recorded.", "Both"),
     (9,  "First day developer test: no ABDM exposure, docs plus sandbox credentials only, a working M1 call in under two hours with no human help.", "Product"),
@@ -101,7 +101,7 @@ ACTIONS = [
     (2, date(2026, 8, 24), "Sign off the phasing call: HIE-CM M1 to M3 in Phase 1, M4 and UHI in Phase 2, NHCX out of scope.", "Product", date(2026, 8, 25)),
     (3, date(2026, 8, 24), "Reach out to OHCN about abdm-docs.pages.dev. Propose the Catalogue as shared upstream.", "Product", date(2026, 8, 26)),
     (4, date(2026, 8, 24), "Accept that some NHA endpoints ship unverified in V1 and are labelled as such.", "Product", date(2026, 8, 26)),
-    (5, date(2026, 8, 24), "Accept Scalar hosted for V1. Self host review moves to Phase 2.", "Product", date(2026, 8, 26)),
+    (5, date(2026, 8, 24), "Decided: fully self hosted from day one. Docusaurus with Scalar MIT packages, own Docs MCP, Ollama sidecar.", "Product", date(2026, 8, 26)),
     (6, date(2026, 8, 24), "Decide the licence and the public repo home before the first push.", "Product", date(2026, 8, 25)),
     (7, date(2026, 8, 24), "Recruit the first day developer for the 3 September test.", "Product", date(2026, 8, 31)),
     (8, date(2026, 8, 24), "Name a backup for Shyamjith. He owns twelve of twenty one tasks alone and is on nineteen.", "Product", date(2026, 8, 26)),

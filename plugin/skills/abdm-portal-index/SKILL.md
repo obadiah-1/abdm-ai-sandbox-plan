@@ -1,9 +1,9 @@
 ---
 name: abdm-portal-index
-description: Router for all ABDM Developer Portal build work. Use this FIRST whenever anyone asks about building, planning, writing, reviewing, compiling, publishing or testing the ABDM Catalogue, the Scalar docs site, the agent skills, the MCP servers, the update pipeline, or the portal's schedule and scope. Triggers include "write an atom", "review this page", "the catalogue", "lint failed", "compile the skills", "which milestone am I on", "what ships Friday", "is this DPG compliant", "ingest NHA swagger", "the support agent", and any mention of HIE-CM or ABDM documentation work. Route from here rather than guessing which skill applies.
-plan_version: 2026.08.24-3
+description: Router for all ABDM Developer Portal build work. Use this FIRST whenever anyone asks about building, planning, writing, reviewing, compiling, publishing or testing the ABDM Catalogue, the self-hosted docs site, the agent skills, the Docs MCP server, the update pipeline, or the portal's schedule and scope. Triggers include "write an atom", "review this page", "the catalogue", "lint failed", "compile the skills", "which milestone am I on", "what ships Friday", "is this DPG compliant", "ingest NHA swagger", "the support agent", and any mention of HIE-CM or ABDM documentation work. Route from here rather than guessing which skill applies.
+plan_version: 2026.08.24-4
 plan_source: abdm-v1-phase1-architecture-and-plan.md
-plan_hash: sha256:3e7db9ec428e6adc7fc37b91679d67b580def71fdb293ed72f5d6b8cebe8aded
+plan_hash: sha256:cdb2f0b61402cf7f7d4a278a16a65b77d8dc43d0bb3056ee8039124700aee0d6
 compiled_from_plan: true
 ---
 
@@ -34,9 +34,9 @@ The only skill an agent needs loaded to know what else exists. Read the decision
    - Marking an atom verified after running it: `/atom-verify`
 
 3. **Rendering it for humans**
-   - Scalar project, navigation, versions, theme, domains: `scalar-docs`
+   - Docusaurus site, self-hosted Scalar references, local search, footer version stamp: `scalar-docs`
    - Site structure, the four tabs, the module page ladder, page placement: `docs-ux`
-   - Both MCP surfaces and what each is for: `scalar-docs`, then `support-agent`
+   - The Docs MCP server and what it is for: `scalar-docs`, then `support-agent`
 
 4. **Compiling it for machines**
    - Turning atoms into skills, and the validator: `skill-compiler`
