@@ -1,9 +1,9 @@
 ---
 name: dpg-governance
-description: The digital public good constraint on the ABDM Developer Portal: FOSS licensing, no dependency on Eka infrastructure or APIs, the overlay repo boundary for vendor-specific content, governance files, and the acceptance test that proves decoupling. Use whenever anything touches licensing, vendor-specific content, hosting dependencies, contribution process, or when someone proposes adding an Eka endpoint, credential format or URL to the core Catalogue. Also use before any public release.
-plan_version: 2026.08.24-3
+description: 'The digital public good constraint on the ABDM Developer Portal: FOSS licensing, no dependency on Eka infrastructure or APIs, the overlay repo boundary for vendor-specific content, governance files, and the acceptance test that proves decoupling. Use whenever anything touches licensing, vendor-specific content, hosting dependencies, contribution process, or when someone proposes adding an Eka endpoint, credential format or URL to the core Catalogue. Also use before any public release.'
+plan_version: 2026.08.24-4
 plan_source: abdm-v1-phase1-architecture-and-plan.md
-plan_hash: sha256:3e7db9ec428e6adc7fc37b91679d67b580def71fdb293ed72f5d6b8cebe8aded
+plan_hash: sha256:cdb2f0b61402cf7f7d4a278a16a65b77d8dc43d0bb3056ee8039124700aee0d6
 compiled_from_plan: true
 ---
 
@@ -65,7 +65,7 @@ The framework is credible only if someone else can contribute meaningfully. In p
 
 ## Hosting dependencies
 
-Scalar hosted is used for V1 speed. The exit is documented and kept open by the content rules in `scalar-docs`: plain markdown, MDX only for callouts and steps, every page readable as raw `.md`.
+Everything is self-hosted from day one: no hosted-Scalar phase, no vendor cloud dependency. Docusaurus with the MIT Scalar packages vendored at build time, nothing loading from a CDN, every Scalar cloud touchpoint off (request proxy, Ask AI, hosted API client link, telemetry, platform toolbar). The exit is already taken, and kept open by the content rules in `scalar-docs`: plain markdown, MDX only for callouts and steps, every page readable as raw `.md`. The handover unit is one compose file: the docs-mcp distroless image plus stock Ollama with the model volume.
 
 The test: could this Catalogue be rendered by a different static site generator in a week, losing only visual polish? If the answer becomes no, the constraint has eroded.
 

@@ -1,6 +1,6 @@
 ---
 name: openapi-ingest
-description: How to bring NHA's specifications into the ABDM Catalogue: fetching HIE-CM swagger from the sandbox, hashing and recording sources, cleaning inconsistent files without hiding the change, describing callbacks as AsyncAPI, and generating endpoint atom stubs. Use whenever adding a new NHA source, refreshing an existing one, generating endpoint stubs, handling a spec that is broken or incomplete, or deciding how to record a correction to an NHA file.
+description: 'How to bring NHA''s specifications into the ABDM Catalogue: fetching HIE-CM swagger from the sandbox, hashing and recording sources, cleaning inconsistent files without hiding the change, describing callbacks as OpenAPI 3.1 webhooks inside the module file that owns them, and generating endpoint atom stubs. Use whenever adding a new NHA source, refreshing an existing one, generating endpoint stubs, handling a spec that is broken or incomplete, or deciding how to record a correction to an NHA file.'
 ---
 
 # OpenAPI Ingest
@@ -18,13 +18,31 @@ NHA's specifications are the root of the Catalogue. They are also incomplete, oc
 
 Every source, including the manual drop, gets a URL, a fetch date and a hash. An atom with an unhashed source fails lint.
 
+## Module-per-file layout
+
+Specs live one file per module under `catalogue/openapi/`:
+
+```
+openapi/
+  CONVENTIONS.md          the binding spec-authoring rules every file follows
+  hiecm-gateway.yaml       session token, used by every module
+  hiecm-m1.yaml            one self-contained file per module; callbacks
+  hiecm-m2.yaml            live inside the module file that owns them, as
+  hiecm-m3.yaml            OpenAPI 3.1 webhooks, so one file is the whole
+  hiecm-m4.yaml             contract for that module
+  .raw/                    upstream NHA files, stored untouched
+  corrections/             recorded patches, never silent fixes
+```
+
+There is no AsyncAPI file anywhere in this stack. `CONVENTIONS.md` states the rules ingestion and hand-authoring both follow: how a `webhooks` entry is structured, naming, shared components, how the gateway session token is referenced from each module file.
+
 ## The ingestion sequence
 
 1. **Fetch** the raw file exactly as served. Store the original untouched under `openapi/.raw/`.
 2. **Hash** it. `sha256` over the raw bytes. This hash is what the watcher compares against.
 3. **Lint** with Spectral. Record the violations; do not fix them yet.
 4. **Correct** only what blocks rendering or stub generation. Every correction is recorded, see below.
-5. **Split callbacks** out into the AsyncAPI file so Scalar renders them as callbacks rather than as odd request bodies.
+5. **Fold callbacks in** as OpenAPI 3.1 `webhooks` entries inside the module file they belong to, per `CONVENTIONS.md`, so Scalar renders them from the same reference as the rest of the module.
 6. **Generate stubs**, one endpoint atom per operation, with frontmatter filled and the five section headings empty.
 7. **Report** what was generated, what was corrected, and what still fails lint.
 
@@ -75,13 +93,13 @@ One endpoint atom per operation. The generator fills:
 
 The generator leaves all five sections empty with headings present. It never writes prose. A stub with generated prose is worse than an empty one, because a reviewer might believe it.
 
-## Callbacks as AsyncAPI
+## Callbacks as OpenAPI webhooks
 
-Callbacks are the part integrators get wrong most and the part specs describe worst. Model them properly:
+Callbacks are the part integrators get wrong most and the part specs describe worst. ABDM callbacks are plain HTTPS POSTs, so they are modelled as OpenAPI 3.1 `webhooks` entries inside the module spec that owns them, not in a separate file:
 
-- One AsyncAPI channel per callback path
+- One `webhooks` entry per callback path, in the module file
 - The payload schema, the acknowledgement expected back, and the retry behaviour
-- Link each channel to the operation that triggers it
+- Link each webhook to the operation that triggers it
 
 If NHA's own documentation does not state the retry behaviour, mark it unknown rather than assuming. Retry behaviour drives idempotency design, so a wrong guess here is expensive downstream.
 
@@ -93,6 +111,16 @@ Ingestion produces stubs, not documentation. The handoff is explicit:
 2. Flag operations that could not be stubbed and why
 3. Dispatch `atom-author` for the bodies, or queue them
 4. Dispatch `atom-verifier` once credentials exist
+
+## How the indexer reads your spec
+
+The Docs MCP indexer parses every `openapi/*.yaml` outside
+`corrections/` and fails the build on any operation without an
+`operationId`. The extension must be `.yaml`; a `.yml` file is silently
+ignored today. `.md` files inside `openapi/`, such as `CONVENTIONS.md`,
+are skipped as spec-area documentation. `webhooks` sections are not yet
+indexed, only `paths` operations reach list_operations. The full walk
+contract lives at `catalogue/README.md` in the abdm-docs repository.
 
 ## Related
 

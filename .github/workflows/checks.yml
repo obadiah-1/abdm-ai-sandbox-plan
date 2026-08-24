@@ -22,9 +22,8 @@ jobs:
         run: |
           claude plugin validate .claude-plugin/marketplace.json --strict
           claude plugin validate ./plugin --strict
-          claude plugin validate ./plugin/skills --strict
-          claude plugin validate ./plugin/commands --strict
-          claude plugin validate ./plugin/agents --strict
+      - name: agent frontmatter parses
+        run: python3 scripts/check-agent-frontmatter.py
       - name: no skill shares a name with a command
         run: |
           dupes=$(comm -12 <(ls plugin/skills | sort) <(ls plugin/commands | sed 's/\.md$//' | sort))

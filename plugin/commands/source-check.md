@@ -1,6 +1,6 @@
 ---
 description: Fetch and hash NHA sources, diff against stored hashes, and open a pull request flipping affected ABDM Catalogue atoms to stale.
-argument-hint: [<source>|--hash <url>|--dry-run]
+argument-hint: '[<source>|--hash <url>|--dry-run]'
 ---
 
 Sweep the configured ABDM sources for changes. Load the `update-pipeline` skill. Target: `$ARGUMENTS`. With no arguments, check every configured source, including the plan.

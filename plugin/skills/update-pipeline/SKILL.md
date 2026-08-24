@@ -1,6 +1,6 @@
 ---
 name: update-pipeline
-description: The ABDM Catalogue update pipeline that keeps skills following the docs: the daily source watcher, hash diffing, the pull request bot, the human review gate, and the build that runs on merge to publish docs, recompile skills, regenerate the index and llms.txt, and bump the catalogue version. Use whenever working on the watcher or CI, when a source change needs handling, when explaining how skills stay current, or when someone proposes a retrieval-based approach to keeping skills fresh.
+description: 'The ABDM Catalogue update pipeline that keeps skills following the docs: the daily source watcher, hash diffing, the pull request bot, the human review gate, and the build that runs on merge to publish docs, recompile skills, regenerate the index and llms.txt, and bump the catalogue version. Use whenever working on the watcher or CI, when a source change needs handling, when explaining how skills stay current, or when someone proposes a retrieval-based approach to keeping skills fresh.'
 ---
 
 # Update Pipeline
@@ -9,7 +9,7 @@ description: The ABDM Catalogue update pipeline that keeps skills following the 
 
 Separating them is the whole design.
 
-**Retrieval at question time.** Someone asks a question, something searches the published docs, an answer comes back. Scalar's Docs MCP and Ask AI do this. Our support agent uses the same surface. There is no custom vector store in V1 and there does not need to be.
+**Retrieval at question time.** Someone asks a question, something searches the published docs, an answer comes back. Our own Docs MCP does this: hybrid keyword plus semantic search over the indexed Catalogue. The site search box and the support agent use the same server. No separate vector database: embeddings live inside the same SQLite snapshot the indexer builds.
 
 **Regeneration at change time.** NHA changes a spec, and every skill that depended on it must change. This is not retrieval. It is a build. Treating it as retrieval produces skills that are confidently stale.
 
@@ -30,10 +30,14 @@ Watched sources (daily)
         |
    Merge to main
         |
-   CI: lint atoms -> Spectral -> generate navigation -> compile skills
-       -> validate -> build index -> generate llms.txt -> bump catalogue_version
+   CI: lint atoms -> Spectral -> build the Docusaurus site (specs synced
+       from catalogue/openapi) -> compile skills -> validate -> build index
+       -> generate llms.txt -> bump catalogue_version -> index the catalogue
+       into catalogue.db (keyword-only on PRs, no Ollama in CI; the deploy
+       build embeds via the Ollama sidecar)
         |
-   Publish: Scalar site and both MCPs | plugin release | registry refresh
+   Publish: static site + docs-mcp image with the new snapshot | plugin
+   release | Context7 refresh
 ```
 
 ## The watcher
@@ -52,7 +56,7 @@ On a change, it does three things and no more:
 
 A stale atom:
 
-- Renders a banner in Scalar
+- Renders a banner on the site
 - Causes the compiled skill to warn the agent that this step may have changed
 - Appears in `/catalogue-status` as needing attention
 - Is cited by the support agent with its status attached
@@ -76,15 +80,15 @@ The third outcome is common and legitimate. A single-character change to one ope
 In order, because the order matters:
 
 1. **Lint atoms.** Schema, sections, prose, graph, sources.
-2. **Spectral.** The three OpenAPI files.
-3. **Generate navigation.** From frontmatter, never hand-edited.
+2. **Spectral.** The module OpenAPI files.
+3. **Build the Docusaurus site.** Specs synced from `catalogue/openapi`, navigation generated from frontmatter, never hand-edited.
 4. **Compile skills.** Selector, templates, prose pass.
 5. **Validate.** Identifier diff and the rest. Build blocker on any failure.
-6. **Build the index.** Last, because it walks everything above.
+6. **Build the index.** Because it walks everything above.
 7. **Generate llms.txt and the full variant.** For agents that fetch rather than use MCP.
-8. **Bump `catalogue_version`.**
+8. **Bump `catalogue_version` and index the catalogue into `catalogue.db`.** Keyword-only on pull requests because CI has no Ollama; the deploy build embeds via the sidecar.
 
-Then publish: the Scalar site with both MCP surfaces refreshed, the plugin release with a git tag, and the registry refresh.
+Then publish: the static site plus a `docs-mcp` image built with the new snapshot, the plugin release with a git tag, and the Context7 refresh.
 
 Docs and skills publish from the same build, so their versions can never disagree.
 

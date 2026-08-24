@@ -16,8 +16,8 @@ Mintlify-style, as seen on code.claude.com/docs and developer.eka.care: top bar 
 | Feature | What | Delivered by |
 |---|---|---|
 | Language selector | Locale switcher in the top bar, the `/en/` path segment | Deferred until a second locale exists. English only in V1. |
-| AI assistant | Ask questions over the published content | Scalar Ask AI, backed by the Docs MCP |
-| Spotlight search | Cmd+K, searches titles and full text | Scalar search |
+| Agent path | Not an embedded assistant. Answer synthesis stays in the consuming agent in V1 | The Docs MCP at `/mcp`. An on-site assistant in front of `/api/search` is a later addition, not built yet. |
+| Spotlight search | Cmd+K, searches titles and full text | The site's local build-time index (`@easyops-cn/docusaurus-search-local`) |
 
 Code blocks additionally carry their own language tabs (curl, Python, Node) where samples exist in more than one language. That is per-block, not the top-bar selector.
 

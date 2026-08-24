@@ -1,6 +1,6 @@
 ---
 description: Set up, run and score the first-day developer test for the ABDM Developer Portal.
-argument-hint: [--prepare|--score]
+argument-hint: '[--prepare|--score]'
 ---
 
 Run the first-day developer test. Load the `portal-proof` skill and follow the procedure below. Mode: `$ARGUMENTS`. If empty, ask whether this is preparation or scoring.

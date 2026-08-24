@@ -1,6 +1,6 @@
 ---
 name: portal-proof
-description: How the ABDM Developer Portal proves it works: the six eval tasks scored against atom exit conditions, the first-day developer test, how failures become Catalogue issues, and re-scoring on every change. Use whenever running or designing an evaluation, preparing the first-day developer test, scoring a run, deciding whether V1 is shippable, or turning a test failure into work. Also use when someone claims something works without evidence.
+description: 'How the ABDM Developer Portal proves it works: the six eval tasks scored against atom exit conditions, the first-day developer test, how failures become Catalogue issues, and re-scoring on every change. Use whenever running or designing an evaluation, preparing the first-day developer test, scoring a run, deciding whether V1 is shippable, or turning a test failure into work. Also use when someone claims something works without evidence.'
 ---
 
 # Portal Proof

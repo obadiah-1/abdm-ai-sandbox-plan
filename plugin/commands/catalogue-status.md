@@ -1,6 +1,6 @@
 ---
 description: Coverage and verification state of the ABDM Catalogue by gateway, milestone and atom type.
-argument-hint: [--gateway <g>|--milestone <M>|--stale|--gaps]
+argument-hint: '[--gateway <g>|--milestone <M>|--stale|--gaps]'
 ---
 
 Report where the ABDM Catalogue actually is. Filters: `$ARGUMENTS`. With no arguments, report everything.

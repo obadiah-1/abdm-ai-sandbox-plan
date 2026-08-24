@@ -1,6 +1,6 @@
 ---
 name: atom-authoring
-description: How to write one atom for the ABDM Catalogue: the mandatory frontmatter schema, the ten atom types, the five dummy-proof body sections, structured fenced blocks, and the related graph. Use whenever creating or editing a unit of Catalogue knowledge, whether it is a concept, flow, endpoint, callback, error, test, decision, glossary, FHIR or sandbox page. Also use when someone asks how to document an NHA endpoint, what fields a page needs, how to link pages together, or why an atom failed schema lint.
+description: 'How to write one atom for the ABDM Catalogue: the mandatory frontmatter schema, the ten atom types, the five dummy-proof body sections, structured fenced blocks, and the related graph. Use whenever creating or editing a unit of Catalogue knowledge, whether it is a concept, flow, endpoint, callback, error, test, decision, glossary, FHIR or sandbox page. Also use when someone asks how to document an NHA endpoint, what fields a page needs, how to link pages together, or why an atom failed schema lint.'
 ---
 
 # Atom Authoring
@@ -123,6 +123,17 @@ Read the file for the type you are writing: `references/atom-types.md`.
 | `verified: true` because it looked right | Fabricated verification is worse than none | `unverified`, and say so in the prose |
 | Fix described inline in section 5 | Skills compile error atoms separately | Create the error atom, link it |
 | Em dash anywhere | CI blocks U+2014 | Full stop, comma or colon |
+
+## How the indexer reads your atom
+
+The Docs MCP indexer walks the catalogue and parses every `.md` outside
+`openapi/` as an atom, with one exception, the `README.md` at the
+catalogue root. A file that fails to parse fails the whole build,
+loudly, naming the file. Atom bodies are chunked per `##` heading and
+embedded for semantic search. The full walk contract, including what
+feeds which MCP tool, is documented at `catalogue/README.md` in the
+abdm-docs repository; read it before adding any non-atom file to the
+tree.
 
 ## Related
 
