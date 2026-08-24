@@ -112,6 +112,16 @@ Ingestion produces stubs, not documentation. The handoff is explicit:
 3. Dispatch `atom-author` for the bodies, or queue them
 4. Dispatch `atom-verifier` once credentials exist
 
+## How the indexer reads your spec
+
+The Docs MCP indexer parses every `openapi/*.yaml` outside
+`corrections/` and fails the build on any operation without an
+`operationId`. The extension must be `.yaml`; a `.yml` file is silently
+ignored today. `.md` files inside `openapi/`, such as `CONVENTIONS.md`,
+are skipped as spec-area documentation. `webhooks` sections are not yet
+indexed, only `paths` operations reach list_operations. The full walk
+contract lives at `catalogue/README.md` in the abdm-docs repository.
+
 ## Related
 
 - What the stubs become: `atom-authoring`
