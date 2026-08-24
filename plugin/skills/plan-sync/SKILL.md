@@ -145,6 +145,8 @@ Every section carries a stable id, declared in the plan as an anchor tag on the 
 
 Skills cite `plan#p4-skills`. The scheme is `p<section number>-<short slug>`, and subsections append their own number, `p4-2-ooda` for §4.2. The id is deliberately shorter than the heading and independent of it, so rewording a heading breaks nothing.
 
+GitHub rewrites these ids to `user-content-p4-skills` in the rendered HTML, and its own scroll handler resolves the unprefixed `#p4-skills` fragment in a browser. Do not chase the prefix into citations. The durable path is the raw markdown: an agent fetching the plan greps for the anchor tag as written, which is exactly what the gate does.
+
 Do not cite GitHub's generated heading anchor. It is derived from the full heading text and changes on any reword, which is the exact failure the ids exist to prevent.
 
 **Renaming or removing a section id is a breaking change.** Bump with `breaking: true` and fix every citation in the same commit, exactly as with renaming an atom id. `scripts/plan-check.sh` greps every plan section citation in the plugin and fails on any that no longer resolves, so a rename cannot be half-done.
