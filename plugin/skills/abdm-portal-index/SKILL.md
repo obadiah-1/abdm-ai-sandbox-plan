@@ -1,6 +1,10 @@
 ---
 name: abdm-portal-index
 description: Router for all ABDM Developer Portal build work. Use this FIRST whenever anyone asks about building, planning, writing, reviewing, compiling, publishing or testing the ABDM Catalogue, the Scalar docs site, the agent skills, the MCP servers, the update pipeline, or the portal's schedule and scope. Triggers include "write an atom", "review this page", "the catalogue", "lint failed", "compile the skills", "which milestone am I on", "what ships Friday", "is this DPG compliant", "ingest NHA swagger", "the support agent", and any mention of HIE-CM, UHI or NHCX documentation work. Route from here rather than guessing which skill applies.
+plan_version: 2026.08.24
+plan_source: abdm-v1-phase1-architecture-and-plan.md
+plan_hash: sha256:06c6c63ff356032b731619d850df7794c6888c903b35ecee5c701fa3270306c3
+compiled_from_plan: true
 ---
 
 # ABDM Portal Index
@@ -9,7 +13,7 @@ The only skill an agent needs loaded to know what else exists. Read the decision
 
 `catalogue_version` is recorded in `catalogue/VERSION`. If the version in a compiled skill differs from the one in the Catalogue, say so before answering: the person may be reading stale instructions.
 
-**Once per session, check the plan manifest.** Fetch `docs-domain/governance/manifest.json` and compare `plan_version` against the version stamped in this skill. If the published version is newer, say so once and continue. If it is flagged breaking, say so before answering any planning or architecture question. If the fetch fails, continue on the installed version and say the check failed. Never block on it. Mechanism: `plan-sync`.
+**Once per session, check the plan manifest.** Fetch `https://raw.githubusercontent.com/obadiah-1/abdm-ai-sandbox-plan/main/manifest.json` and compare `plan_version` against the `plan_version` stamped in this skill's frontmatter. If the published version is newer, say so once and continue. If it is flagged breaking, say so before answering any planning or architecture question. If the fetch fails, continue on the installed version and say the check failed. Never block on it. Mechanism: `plan-sync`.
 
 ## Decision tree
 

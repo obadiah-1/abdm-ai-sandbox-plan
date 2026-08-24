@@ -46,11 +46,14 @@ Published at:
 
 | Surface | URL shape | For |
 |---|---|---|
-| Rendered page | `docs-domain/governance/plan` | People reading it |
-| Raw markdown | `docs-domain/governance/plan.md` | Agents fetching directly |
-| Index entry | `docs-domain/llms.txt` | Agent discovery |
-| Docs MCP | `docs-domain/mcp` | Question answering over it |
-| Version manifest | `docs-domain/governance/manifest.json` | Cheap staleness checks, see §6 |
+| Rendered page | `https://github.com/obadiah-1/abdm-ai-sandbox-plan/blob/main/abdm-v1-phase1-architecture-and-plan.md` | People reading it |
+| Raw markdown | `https://raw.githubusercontent.com/obadiah-1/abdm-ai-sandbox-plan/main/abdm-v1-phase1-architecture-and-plan.md` | Agents fetching directly |
+| Changelog | `https://github.com/obadiah-1/abdm-ai-sandbox-plan/commits/main/abdm-v1-phase1-architecture-and-plan.md` | What changed and when |
+| Version manifest | `https://raw.githubusercontent.com/obadiah-1/abdm-ai-sandbox-plan/main/manifest.json` | Cheap staleness checks, see §6 |
+| Index entry | `docs-domain/llms.txt` | Agent discovery, once the docs site is up |
+| Docs MCP | `docs-domain/mcp` | Question answering over it, once the docs site is up |
+
+Until the docs site exists, GitHub is the published surface. The raw URLs above are live now and are what `manifest.json`, the index skill and `/plan-check` point at.
 
 It must be git, not a document in a collaboration tool. The entire P7 mechanism depends on hashing, diffing and pull request review. A document with no content hash cannot be watched, and a change with no review gate cannot be trusted.
 
@@ -70,7 +73,7 @@ summary: >
   the schedule, and the definition of done.
 supersedes: governance.plan.v0-2
 sources:
-  - url: catalogue/governance/plan.md
+  - url: abdm-v1-phase1-architecture-and-plan.md
     role: canonical
     hash: sha256:...
 compiles_to:
@@ -80,7 +83,7 @@ compiles_to:
   - abdm-portal-index
 ```
 
-Every section carries a stable id, so compiled skills cite `plan#p4-ooda` rather than a page number that moves. Renaming a section id is a breaking change and needs a redirect, exactly like renaming an atom id.
+Until section ids are added, the plan's numbered sections are the citation key: compiled skills cite `plan#4 Skills, plugin and index`, number and name together. The number is the stable half; GitHub's derived heading anchor is not, because it breaks on any reword. Renumbering or renaming a section is a breaking change and needs every citation fixed in the same commit, exactly like renaming an atom id. New sections go at the end, because inserting one renumbers everything after it.
 
 The five dummy-proof body sections do not apply to a plan atom. Plan atoms are exempt in the lint rule set, and they carry their own required sections instead: principles, scope, schedule, definition of done, risks.
 
@@ -89,7 +92,7 @@ The five dummy-proof body sections do not apply to a plan atom. Plan atoms are e
 The three plan-derived skills stop being hand-written and become build outputs, like every other skill.
 
 ```
-catalogue/governance/plan.md
+abdm-v1-phase1-architecture-and-plan.md
         |
    Selector reads compiles_to
         |
@@ -127,8 +130,8 @@ A tiny manifest is published alongside the plan. It is a few hundred bytes, cach
   "plan_version": "2026.08.24",
   "plan_hash": "sha256:...",
   "catalogue_version": "2026.08.30",
-  "plan_url": "https://docs-domain/governance/plan.md",
-  "changelog_url": "https://docs-domain/governance/plan-history",
+  "plan_url": "https://raw.githubusercontent.com/obadiah-1/abdm-ai-sandbox-plan/main/abdm-v1-phase1-architecture-and-plan.md",
+  "changelog_url": "https://github.com/obadiah-1/abdm-ai-sandbox-plan/commits/main/abdm-v1-phase1-architecture-and-plan.md",
   "breaking": false
 }
 ```
@@ -152,7 +155,7 @@ The same pipeline as any source, with the plan as an internal source rather than
 
 ```mermaid
 flowchart TB
-    ED["Someone edits catalogue/governance/plan.md<br/>on a branch"]
+    ED["Someone edits abdm-v1-phase1-architecture-and-plan.md<br/>on a branch"]
     PR["Pull request<br/>rendered preview + diff of affected skills"]
     REV["Review: does this change<br/>a principle, a date, an owner,<br/>or a done criterion?"]
     BUMP["Bump plan_version<br/>set breaking flag if a principle<br/>or done criterion changed"]

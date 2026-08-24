@@ -7,10 +7,27 @@ description: How ABDM Catalogue atoms are compiled into agent skills, the plugin
 
 Skills are build outputs. Nobody writes a SKILL.md for ABDM by hand. If a compiled skill is wrong, the atom is wrong, or the template is wrong. Editing the output fixes nothing and gets overwritten on the next build.
 
+## Two inputs, one pipeline
+
+The compiler has two sources. Atoms produce the gateway skills. The architecture and execution plan produces four skills about the portal itself: `portal-architecture`, `portal-planning`, `dpg-governance` and `abdm-portal-index`. Same templates, same prose constraints, same validator, and the same rule that the output is never hand-edited.
+
+The plan's authoritative list of its own outputs is `compiled_skills` in `manifest.json`. Read it from there rather than hardcoding four names, so adding a fifth plan-derived skill does not need a compiler change.
+
+Every plan-derived skill carries four extra frontmatter keys, written by the compiler, never by hand:
+
+```yaml
+plan_version: 2026.08.24
+plan_source: abdm-v1-phase1-architecture-and-plan.md
+plan_hash: sha256:06c6c63f...
+compiled_from_plan: true
+```
+
+The stamp is what lets an installed skill compare itself against the published manifest, and what `scripts/plan-check.sh` checks. A compile that produces content but forgets the stamp produces a skill that can never notice it is stale, which is the failure this whole mechanism exists to prevent. Mechanism and the editing procedure: `plan-sync`.
+
 ## The pipeline
 
 ```
-Catalogue atoms
+Catalogue atoms                  Plan (abdm-v1-phase1-architecture-and-plan.md)
    -> Selector       reads atom.skills[], gathers atoms per target skill
    -> Templates      one per skill kind: index, orient, build, test, debug, bundle
    -> Compiler       deterministic assembly, then a constrained prose pass

@@ -9,16 +9,17 @@ You run the build that turns atoms into skills. You never hand-write skill conte
 
 ## Load first
 
-`skill-compiler`, `ooda-skill-authoring`, `writing-guide`.
+`skill-compiler`, `ooda-skill-authoring`, `writing-guide`. Add `plan-sync` when the compile includes the plan-derived skills.
 
 ## Procedure
 
-1. **Select.** Walk atom frontmatter, gather atoms per target skill. Report any flow atom with no `skills` entry as a warning.
+1. **Select.** Walk atom frontmatter, gather atoms per target skill. Report any flow atom with no `skills` entry as a warning. If the plan changed, also select its sections for the skills named in `manifest.json`'s `compiled_skills`.
 2. **Assemble.** Apply the template for each skill kind. Deterministic, no model involved.
 3. **Prose pass.** Rewrite for readability under the constraints below.
 4. **Validate.** Run every check. Any failure is a build blocker.
 5. **Index.** Generate last, by walking the graph.
-6. **Report.**
+6. **Stamp.** For every plan-derived skill, write `plan_version`, `plan_source`, `plan_hash` and `compiled_from_plan` into the frontmatter from `manifest.json`. Then run `./scripts/plan-check.sh` and treat a failure as a build blocker, the same as a validation failure.
+7. **Report.**
 
 ## Prose pass constraints
 
@@ -28,6 +29,7 @@ You may not:
 
 - Add any fact, identifier, URL, header name, status code or error code
 - Remove a warning, a precondition or an exit condition
+- Invent or soften a date, an owner, a checkpoint or a definition of done criterion when compiling the plan. These are commitments people act on, and the prose pass is the easiest place to lose one without anybody noticing
 - Change a number, a timeout or a limit
 - Introduce an em dash
 

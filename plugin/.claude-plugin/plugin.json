@@ -5,7 +5,7 @@
   "author": { "name": "ABDM Developer Portal working group" },
   "license": "MIT",
   "keywords": ["abdm", "hiecm", "uhi", "nhcx", "documentation", "catalogue", "agent-skills", "mcp", "scalar", "dpg", "ooda"],
-  "homepage": "https://github.com/abdm-portal/catalogue",
+  "homepage": "https://github.com/obadiah-1/abdm-ai-sandbox-plan",
   "skills": "./skills",
   "agents": "./agents",
   "commands": "./commands"

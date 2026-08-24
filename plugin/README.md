@@ -31,7 +31,7 @@ skills install abdm-portal-index
 - `dpg-governance` the FOSS and no-Eka-dependency constraint, and how to check it holds
 - `plan-sync` how the plan works as a versioned source, and the staleness check
 
-The first three are compiled from `catalogue/governance/plan.md`, along with the index. Do not edit them by hand.
+The first three are compiled from `abdm-v1-phase1-architecture-and-plan.md` in the repo root, along with the index. Do not edit them by hand. Each carries a `plan_version` stamp in its frontmatter saying which version of the plan it was built from.
 
 **Building the Catalogue**
 
@@ -63,7 +63,9 @@ Commands in `commands/` are the day-to-day verbs: create an atom, verify one, li
 
 ## Keeping up with the plan
 
-The architecture and execution plan lives at `catalogue/governance/plan.md` in the public repo and publishes to the docs site. Four skills compile from it. A small manifest lets an installed plugin notice when it is older than the published plan and say so, without fetching instructions at runtime. Run `/plan-check` to see where you stand.
+The architecture and execution plan lives at [`abdm-v1-phase1-architecture-and-plan.md`](https://github.com/obadiah-1/abdm-ai-sandbox-plan/blob/main/abdm-v1-phase1-architecture-and-plan.md) in the repo root, one directory above this plugin. Four skills compile from it and are stamped with the `plan_version` they were built from. `manifest.json` at the repo root carries the current version and hash, so an installed plugin can notice it is older than the published plan and say so, without fetching instructions at runtime.
+
+A plan change is not finished until the four skills are rebuilt and restamped. `scripts/plan-check.sh` enforces it: it hashes the plan, compares against the manifest, and fails if either the manifest or any compiled skill is behind. Run `/plan-check` to see where an installed plugin stands, or the script in a checkout.
 
 ## The one rule that binds everything
 

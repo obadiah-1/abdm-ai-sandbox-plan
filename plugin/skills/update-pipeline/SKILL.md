@@ -18,8 +18,9 @@ This skill is about the second one.
 ## The flow
 
 ```
-NHA sources (watched daily)
-   swagger YAMLs | GitHub specs | sandbox docs pages | manual drop folder
+Watched sources (daily)
+   NHA: swagger YAMLs | GitHub specs | sandbox docs pages | manual drop folder
+   Ours: abdm-v1-phase1-architecture-and-plan.md, the plan
         |
    Watcher: fetch, hash, diff against stored hash
         |
@@ -98,6 +99,19 @@ Without this, a developer debugging with stale skills against fresh docs has no 
 NHA publishes circulars and release notes that never reach a specification file. Someone owns dropping these into a watched folder. They are hashed and treated as sources like anything else.
 
 This is the least automated part of the pipeline and the one most likely to rot. It needs a named owner and a review rota, not a hope.
+
+## The plan is a source too
+
+The architecture and execution plan is watched on the same schedule and by the same mechanism as anything NHA publishes. It is hashed, diffed, and a change to it opens a pull request like any other source change. The difference is what a change affects: an NHA change flips atoms to stale, a plan change forces a rebuild of the four skills compiled from it.
+
+| | NHA source changes | Plan changes |
+|---|---|---|
+| Detected by | Fetch and hash | Hash against `manifest.json` |
+| Affects | Atoms whose `sources` list the file | The skills in `manifest.json`'s `compiled_skills` |
+| Gate | Atom lint and human review | `scripts/plan-check.sh`, then human review |
+| Version bumped | `catalogue_version` | `plan_version` |
+
+Both bumps are advertised the same way, so an installed agent can notice it is behind on either. Mechanism: `plan-sync`.
 
 ## When to add a new source
 

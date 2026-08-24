@@ -9,23 +9,32 @@ The plan is a source, not a document people transcribe. It is watched, hashed, r
 
 ## Where the plan lives
 
-Canonical copy, the only editable one:
+Canonical copy, the only editable one, in the plan repo:
 
 ```
-catalogue/governance/plan.md
-catalogue/governance/plan-history/     superseded versions, never deleted
+abdm-v1-phase1-architecture-and-plan.md    the plan
+plan-as-source-addendum.md                 how it stays authoritative
+manifest.json                              version, hash, compiled skill list
+plan-history/                              superseded versions, never deleted
+scripts/plan-check.sh                      the drift gate
+plugin/                                    this plugin, built from the plan above
 ```
+
+Repo: `https://github.com/obadiah-1/abdm-ai-sandbox-plan`
 
 Published surfaces:
 
 | Surface | For |
 |---|---|
-| `docs-domain/governance/plan` | People reading it |
-| `docs-domain/governance/plan.md` | Agents fetching raw markdown |
-| `docs-domain/governance/manifest.json` | Cheap staleness checks |
-| Docs MCP and llms.txt | Question answering and discovery |
+| `.../blob/main/abdm-v1-phase1-architecture-and-plan.md` | People reading it |
+| `.../raw/main/abdm-v1-phase1-architecture-and-plan.md` | Agents fetching raw markdown |
+| `.../raw/main/manifest.json` | Cheap staleness checks |
+| `.../commits/main/abdm-v1-phase1-architecture-and-plan.md` | What changed and when |
+| Docs MCP and llms.txt | Question answering and discovery, once the docs site is up |
 
-It is in git because hashing, diffing and pull request review are the mechanism. A plan in a collaboration tool with no content hash cannot be watched, and a change with no review gate cannot be trusted.
+The plugin ships in the same repo as the plan it is compiled from. That is deliberate: a plan change and the skill rebuild it forces land in one commit and one review, so the two cannot drift apart between repos.
+
+It is in git because hashing, diffing and pull request review are the mechanism. A plan in a collaboration tool with no content hash cannot be watched, and a change with no review gate cannot be trusted. GitHub's commit history for the plan file is the changelog; `plan-history/` holds the full superseded text so a stale skill's basis can be read without reconstructing it from diffs.
 
 ## What compiles from it
 
@@ -67,18 +76,24 @@ So: compile the content, and check the version cheaply.
 
 ## The manifest check
 
-One small file, fetched once at session start by the index skill.
+One small file at the repo root, fetched once at session start by the index skill from
+`https://raw.githubusercontent.com/obadiah-1/abdm-ai-sandbox-plan/main/manifest.json`.
 
 ```json
 {
   "plan_version": "2026.08.24",
-  "plan_hash": "sha256:...",
-  "catalogue_version": "2026.08.30",
-  "plan_url": "https://docs-domain/governance/plan.md",
-  "changelog_url": "https://docs-domain/governance/plan-history",
-  "breaking": false
+  "plan_hash": "sha256:06c6c63f...",
+  "plan_path": "abdm-v1-phase1-architecture-and-plan.md",
+  "plan_url": ".../raw/main/abdm-v1-phase1-architecture-and-plan.md",
+  "plan_page_url": ".../blob/main/abdm-v1-phase1-architecture-and-plan.md",
+  "changelog_url": ".../commits/main/abdm-v1-phase1-architecture-and-plan.md",
+  "history_path": "plan-history/",
+  "breaking": false,
+  "compiled_skills": ["portal-architecture", "portal-planning", "dpg-governance", "abdm-portal-index"]
 }
 ```
+
+`compiled_skills` is the authoritative list of what a plan change forces a rebuild of. Adding a fifth plan-derived skill means adding it here, or the gate will not check it.
 
 Compare against the `plan_version` stamped in the loaded skill:
 
@@ -95,12 +110,15 @@ Check once per session, not per question. Repeating the notice is noise.
 
 ## Editing the plan
 
-1. Branch, edit `catalogue/governance/plan.md`
-2. Open a pull request. The preview shows the rendered plan **and the diff of the four compiled skills**, because a small prose change can materially change a compiled instruction
-3. Review against four questions: does this change a principle, a date, an owner, or a definition of done criterion
-4. Bump `plan_version`. Set `breaking: true` if a principle or a done criterion changed
-5. Merge. CI lints the plan, compiles the four skills, validates, regenerates the index, publishes the docs page, raw markdown, manifest and plugin release
-6. The previous version is copied to `plan-history` and never deleted
+1. Branch, edit `abdm-v1-phase1-architecture-and-plan.md`
+2. Copy the version you are replacing to `plan-history/plan-<old plan_version>.md`. Never delete one
+3. Recompile the four skills in `plugin/skills/` from the edited plan, and restamp `plan_version` in each one's frontmatter
+4. Bump `plan_version` and `plan_hash` in `manifest.json`. Set `breaking: true` if a principle, a date, an owner or a definition of done criterion changed
+5. Run `./scripts/plan-check.sh`. It fails until steps 3 and 4 are both done, which is the point: the plan cannot move without the plugin moving with it
+6. Open a pull request. The diff shows the plan change **and the diff of the four compiled skills** side by side, because a small prose change can materially change a compiled instruction. Review against four questions: does this change a principle, a date, an owner, or a definition of done criterion
+7. Merge. The manifest at `main` is now what installed plugins compare themselves against
+
+Steps 3 to 5 are not optional politeness. `scripts/plan-check.sh` is the enforcement: it hashes the plan, compares against `manifest.json`, and checks the stamp in every skill named in `compiled_skills`. A plan edit that skips the rebuild fails the gate loudly instead of shipping skills that quietly describe a plan nobody agreed to.
 
 ## Validator rules specific to the plan
 
@@ -110,12 +128,15 @@ Check once per session, not per question. Repeating the notice is noise.
 | `plan.section-refs-resolve` | A skill citing `plan#some-id` that does not exist |
 | `plan.no-new-commitments` | The prose pass inventing a date, owner, checkpoint or done criterion |
 | `plan.done-criteria-count` | Silent loss of a done criterion between the plan and `portal-planning` |
+| `scripts/plan-check.sh` | The plan edited without bumping the manifest, or without restamping a compiled skill. The one rule that runs with no build system present |
 
 The last one exists because losing a done criterion is invisible at review time and expensive at ship time.
 
-## Section ids
+## Citing plan sections
 
-Every plan section carries a stable id, so skills cite `plan#p4-ooda` rather than a heading number that moves when a section is inserted. Renaming a section id is a breaking change and needs a redirect, exactly like renaming an atom id.
+The plan is numbered, section 0 to section 12, and skills cite the number and name together: `plan#4 Skills, plugin and index`. The number is the stable part; GitHub's own heading anchor is not, because it is derived from the full heading text and breaks on any reword.
+
+Renumbering or renaming a section is a breaking change. Bump with `breaking: true` and fix every citation in the same commit, exactly as with renaming an atom id. Inserting a section between two existing ones renumbers everything after it, which is why new material goes at the end unless there is a real reason not to.
 
 ## What this does not solve
 

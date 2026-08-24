@@ -1,0 +1,16 @@
+{
+  "plan_version": "2026.08.24",
+  "plan_hash": "sha256:06c6c63ff356032b731619d850df7794c6888c903b35ecee5c701fa3270306c3",
+  "plan_path": "abdm-v1-phase1-architecture-and-plan.md",
+  "plan_url": "https://raw.githubusercontent.com/obadiah-1/abdm-ai-sandbox-plan/main/abdm-v1-phase1-architecture-and-plan.md",
+  "plan_page_url": "https://github.com/obadiah-1/abdm-ai-sandbox-plan/blob/main/abdm-v1-phase1-architecture-and-plan.md",
+  "changelog_url": "https://github.com/obadiah-1/abdm-ai-sandbox-plan/commits/main/abdm-v1-phase1-architecture-and-plan.md",
+  "history_path": "plan-history/",
+  "breaking": false,
+  "compiled_skills": [
+    "portal-architecture",
+    "portal-planning",
+    "dpg-governance",
+    "abdm-portal-index"
+  ]
+}
