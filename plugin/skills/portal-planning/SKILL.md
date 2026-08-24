@@ -1,9 +1,9 @@
 ---
 name: portal-planning
 description: The ABDM Developer Portal schedule, workstreams, ownership split, two-day shipping increments, definition of done, and risk register. Use whenever someone asks what ships when, what is blocked, who owns a piece of work, whether V1 is on track, what counts as finished, how to sequence a task, or wants a standup, a status update, or a re-plan. Also use when scope is being added or cut so the trade is made against the schedule rather than in the abstract.
-plan_version: 2026.08.24-2
+plan_version: 2026.08.24-3
 plan_source: abdm-v1-phase1-architecture-and-plan.md
-plan_hash: sha256:ba59c7811699e974481f4e93874b2bc557d7a2b3e1a177d5d2dce12213d94939
+plan_hash: sha256:3e7db9ec428e6adc7fc37b91679d67b580def71fdb293ed72f5d6b8cebe8aded
 compiled_from_plan: true
 ---
 
@@ -41,10 +41,10 @@ Every checkpoint ends with something an integrator can actually use. This is the
 
 | Checkpoint | An integrator can |
 |---|---|
-| 1 | Open a Scalar site with three OpenAPI references rendered and searchable, plus the sandbox registration guide |
+| 1 | Open a Scalar site with the HIE-CM OpenAPI reference rendered and searchable, plus the sandbox registration guide |
 | 2 | Read dummy-proof M1 pages, run the M1 curls against sandbox, ask the Docs MCP questions |
 | 3 | Install the index and the M1 skills into a coding agent and scaffold M1 |
-| 4 | Read M2 and M3 at the same depth, install the full plugin, see UHI and NHCX with honest depth labels |
+| 4 | Read M2 and M3 at the same depth, install the full plugin, and see the phase scope stated on every landing page |
 | 5 | Use the whole thing, file a gap from the support agent, watch a source change open a pull request |
 
 When a checkpoint is at risk, cut depth, not the checkpoint. A checkpoint that slips takes the next one with it.
@@ -62,7 +62,7 @@ Every item is checkable. None is a judgement call. This is the list to run befor
 7. The watcher has opened at least one real pull request from a real source change
 8. The support agent answered the six eval tasks from the Catalogue, citing atom ids, with the score recorded
 9. The first-day developer test passes: no ABDM exposure, docs URL and sandbox credentials only, successful M1 ABHA verification call in under two hours with no human asked
-10. UHI and NHCX pages, index entries and skill descriptions state reference depth, and every unverified atom renders the banner
+10. The landing page, index entries and skill descriptions state the phase scope, HIE-CM M1 to M3 in Phase 1, M4 and UHI in Phase 2, NHCX out of scope, and every unverified atom renders the banner
 11. Public repo, neutral licence, contributing, security and governance files present, no `eka.care` reference in the core Catalogue
 
 ## Risk register
@@ -74,7 +74,7 @@ Each risk carries the decision it needs, because an unowned risk is just anxiety
 | NHA swagger is inconsistent or incomplete, with known 403s on some V3 sandbox endpoints | Ingest, hand-correct, record both the NHA file and the correction in `sources`, mark unverified until sandbox confirms | Accept that some endpoints ship unverified |
 | Scalar guide authoring is less mature than its reference rendering | Keep prose in plain markdown, avoid MDX beyond callouts and steps, so it ports | Accept hosted for V1, review self-host in Phase 2 |
 | An existing community docs site overlaps heavily | Reach out early, propose the Catalogue as shared upstream | Product makes the call and the call |
-| The time available is not enough for three gateways at full depth | Declared depth labels, visible everywhere | Needs sign-off, already decided in the plan |
+| The time available is not enough for three gateways at full depth | Phase 1 is HIE-CM M1 to M3 only. M4 and UHI are Phase 2, NHCX is out of scope | Needs sign-off, already decided in the plan |
 | The prose pass invents facts | Validator diffs every identifier against the Catalogue, any new token fails the build | None, it is a hard rule |
 | The Docs MCP is public and rate limited | Acceptable at V1 support volume | Revisit if external agents hammer it |
 | Sandbox credentials take three to four days | Apply on day one, in parallel with schema work | Apply immediately |

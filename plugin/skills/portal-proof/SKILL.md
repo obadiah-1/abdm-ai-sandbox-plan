@@ -79,7 +79,7 @@ Notice how many of those are atom bugs, not site bugs. That is the point of the 
 
 ## What proof does not mean
 
-Passing both instruments means the documentation works for the paths tested. It does not mean the Catalogue is complete, that UHI and NHCX are verified, or that certification will succeed. Say so plainly when reporting results. Overclaiming here undermines the honesty the depth labels are built on.
+Passing both instruments means the documentation works for the paths tested. It does not mean the Catalogue is complete, that anything beyond M1 to M3 exists, or that certification will succeed. Say so plainly when reporting results. Overclaiming here undermines the honesty the depth labels are built on.
 
 ## Related
 

@@ -31,9 +31,9 @@ Are the listed failures the ones that happen, or the ones that were easy to writ
 
 Search the core Catalogue for vendor hostnames, credential formats, console references and bridge identifiers. Then ask the harder version: does any documented workflow silently assume a vendor account? Run the acceptance test from `dpg-governance` and report whether it actually passes.
 
-### 5. Overclaimed depth
+### 5. Scope creep and silent absence
 
-Do UHI and NHCX atoms carry confident sections 4 and 5 that were never run? Are the depth labels present in the sidebar, the index skill and the frontmatter, or only on the landing page? Reference depth stated once and forgotten everywhere else is overclaiming.
+Has anything for M4, UHI or NHCX crept into the Catalogue, the skills or the navigation? Does the site say out loud that M4 and UHI are Phase 2 and NHCX is out of scope, in the sidebar and the index skill and not only on the landing page? An absence nobody declared reads as a gap, and a gap nobody declared reads as an oversight.
 
 ### 6. Drift between surfaces
 

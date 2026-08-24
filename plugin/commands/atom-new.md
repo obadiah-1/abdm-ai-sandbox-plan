@@ -13,7 +13,7 @@ Create a new atom, correctly shaped, ready to write.
 /atom-new <type> <gateway> <slug>
 /atom-new flow hiecm m2-link-care-context
 /atom-new error hiecm abdm-1035
-/atom-new concept uhi beckn-verbs
+/atom-new concept hiecm consent-artefact
 ```
 
 ## What it does

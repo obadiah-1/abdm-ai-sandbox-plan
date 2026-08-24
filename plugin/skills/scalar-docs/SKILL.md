@@ -36,7 +36,7 @@ Hand-editing navigation is the same class of mistake as hand-editing a compiled 
 
 The generator also emits:
 
-- Depth labels on UHI and NHCX sections, visible in the sidebar, not only on the page
+- The phase scope, visible in the sidebar and not only on the landing page: HIE-CM M1 to M3 in Phase 1, M4 and UHI in Phase 2, NHCX out of scope
 - Verification banners for `unverified` and `stale` atoms
 - The `catalogue_version` in the footer, so a reader can tell an agent which version they are looking at
 

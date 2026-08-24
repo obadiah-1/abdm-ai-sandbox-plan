@@ -1,6 +1,6 @@
 ---
 name: atom-author
-description: Drafts a batch of ABDM Catalogue atoms of one type from a given source. Dispatch when several atoms of the same shape need writing, for example all M2 endpoint bodies or the UHI concept set. Produces unverified drafts ready for review, never verified content.
+description: Drafts a batch of ABDM Catalogue atoms of one type from a given source. Dispatch when several atoms of the same shape need writing, for example all M2 endpoint bodies or the M3 consent concept set. Produces unverified drafts ready for review, never verified content.
 ---
 
 # Atom Author

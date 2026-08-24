@@ -1,9 +1,9 @@
 ---
 name: abdm-portal-index
-description: Router for all ABDM Developer Portal build work. Use this FIRST whenever anyone asks about building, planning, writing, reviewing, compiling, publishing or testing the ABDM Catalogue, the Scalar docs site, the agent skills, the MCP servers, the update pipeline, or the portal's schedule and scope. Triggers include "write an atom", "review this page", "the catalogue", "lint failed", "compile the skills", "which milestone am I on", "what ships Friday", "is this DPG compliant", "ingest NHA swagger", "the support agent", and any mention of HIE-CM, UHI or NHCX documentation work. Route from here rather than guessing which skill applies.
-plan_version: 2026.08.24-2
+description: Router for all ABDM Developer Portal build work. Use this FIRST whenever anyone asks about building, planning, writing, reviewing, compiling, publishing or testing the ABDM Catalogue, the Scalar docs site, the agent skills, the MCP servers, the update pipeline, or the portal's schedule and scope. Triggers include "write an atom", "review this page", "the catalogue", "lint failed", "compile the skills", "which milestone am I on", "what ships Friday", "is this DPG compliant", "ingest NHA swagger", "the support agent", and any mention of HIE-CM or ABDM documentation work. Route from here rather than guessing which skill applies.
+plan_version: 2026.08.24-3
 plan_source: abdm-v1-phase1-architecture-and-plan.md
-plan_hash: sha256:ba59c7811699e974481f4e93874b2bc557d7a2b3e1a177d5d2dce12213d94939
+plan_hash: sha256:3e7db9ec428e6adc7fc37b91679d67b580def71fdb293ed72f5d6b8cebe8aded
 compiled_from_plan: true
 ---
 
@@ -35,6 +35,7 @@ The only skill an agent needs loaded to know what else exists. Read the decision
 
 3. **Rendering it for humans**
    - Scalar project, navigation, versions, theme, domains: `scalar-docs`
+   - Site structure, the four tabs, the module page ladder, page placement: `docs-ux`
    - Both MCP surfaces and what each is for: `scalar-docs`, then `support-agent`
 
 4. **Compiling it for machines**
@@ -47,16 +48,16 @@ The only skill an agent needs loaded to know what else exists. Read the decision
 
 6. **Answering an integrator's question** from the Catalogue: `support-agent`
 
-## Which gateway, which depth
+## Which gateway, which phase
 
-Depth is not uniform, and every answer must say so. Read the depth label before promising anything.
+Scope is phased. Say which phase something is in before promising anything.
 
-| Gateway | V1 depth | What an agent may claim |
+| Gateway and milestone | Phase | What an agent may claim |
 |---|---|---|
-| HIE-CM M1 to M3 | dummy proof | Steps are verified against sandbox. Curls run as written. |
-| HIE-CM M4 | concept and endpoint | The shape is right. Do not claim a verified run. |
-| UHI | reference | Sections 1 to 3 only. Sections 4 and 5 are unverified. Say so. |
-| NHCX | reference | Same as UHI. |
+| HIE-CM M1 to M3 | 1, dummy proof | Steps are verified against sandbox. Curls run as written. |
+| HIE-CM M4 | 2, not written | Nothing. Say it is Phase 2 and stop. Do not improvise from the OpenAPI. |
+| UHI | 2, not written | Same. Phase 2, no atoms, no skills. |
+| NHCX | out of scope | Nothing, and it is not coming. Lint rejects `gateway: nhcx`. |
 
 ## Skills
 
@@ -71,6 +72,7 @@ Depth is not uniform, and every answer must say so. Read the depth label before 
 | `catalogue-linting` | debug | CI is red on the Catalogue |
 | `openapi-ingest` | build | Bringing an NHA source in |
 | `scalar-docs` | build | The docs site itself |
+| `docs-ux` | build | Where a page goes, the tabs, the module ladder, site chrome |
 | `skill-compiler` | build | The atoms to skills pipeline |
 | `ooda-skill-authoring` | build | Authoring or fixing a compiled skill's loop |
 | `update-pipeline` | build | Watcher, PR bot, CI, publishers |

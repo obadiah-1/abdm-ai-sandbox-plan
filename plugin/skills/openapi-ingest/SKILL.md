@@ -1,6 +1,6 @@
 ---
 name: openapi-ingest
-description: How to bring NHA's specifications into the ABDM Catalogue: fetching swagger from the sandbox, pulling UHI and NHCX specs from GitHub, hashing and recording sources, cleaning inconsistent files without hiding the change, describing callbacks as AsyncAPI, and generating endpoint atom stubs. Use whenever adding a new NHA source, refreshing an existing one, generating endpoint stubs, handling a spec that is broken or incomplete, or deciding how to record a correction to an NHA file.
+description: How to bring NHA's specifications into the ABDM Catalogue: fetching HIE-CM swagger from the sandbox, hashing and recording sources, cleaning inconsistent files without hiding the change, describing callbacks as AsyncAPI, and generating endpoint atom stubs. Use whenever adding a new NHA source, refreshing an existing one, generating endpoint stubs, handling a spec that is broken or incomplete, or deciding how to record a correction to an NHA file.
 ---
 
 # OpenAPI Ingest
@@ -12,7 +12,7 @@ NHA's specifications are the root of the Catalogue. They are also incomplete, oc
 | Source | What it gives | How to fetch |
 |---|---|---|
 | Sandbox swagger YAMLs | HIE-CM V3 operations | Direct fetch, hash, store |
-| NHA GitHub organisation | UHI protocol specs and schemas, NHCX, the reference wrapper | Clone or raw fetch per file, hash |
+| NHA GitHub organisation | The reference wrapper. UHI protocol specs are Phase 2, do not ingest them yet | Clone or raw fetch per file, hash |
 | Sandbox documentation pages | Flow narrative, test cases, known behaviours | Headless fetch, because the site is a JavaScript application |
 | Circulars and release notes | Changes that never reach a spec file | Manual drop folder, hashed like any other source |
 
@@ -59,8 +59,7 @@ These are recurring and should surprise nobody:
 
 - Some V3 sandbox endpoints return 403 because of gateway subscription state rather than anything the integrator did. The atom must say this in section 5, or every reader will assume their credentials are wrong.
 - Operation ids are inconsistently present.
-- The same concept appears under different names across HIE-CM, UHI and NHCX. Do not unify them in the specs. Unify them in the glossary and link.
-- UHI follows Beckn verbs, so the request and callback pairing is structural rather than incidental. Generate both sides.
+- The same concept appears under different names across NHA's specs. Do not unify them in the specs. Unify them in the glossary and link.
 - Sandbox and production base URLs differ in more than the hostname. Record both explicitly per operation.
 
 ## Stub generation

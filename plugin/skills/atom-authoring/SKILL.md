@@ -53,7 +53,7 @@ skills:
 Field rules that catch people out:
 
 - `id` is `gateway.type.slug`, lowercase, stable, and never reused. Renaming an id is a breaking change and needs a redirect.
-- `gateway` is one of `hiecm`, `uhi`, `nhcx`, `shared`. Shared atoms have no milestone; use `n/a`.
+- `gateway` is one of `hiecm`, `uhi`, `shared`. Shared atoms have no milestone; use `n/a`. There is no `nhcx` value: NHCX is out of scope and lint rejects it. `uhi` exists for Phase 2 and nothing is written against it yet.
 - `version` is the NHA spec version this is true for, not the Catalogue version. The Catalogue version is stamped by the build.
 - `summary` is one sentence a new developer understands with no acronyms. It is what the index and the search result show. Write it last, after the body, when you know what the atom actually says.
 - `verified.status` is `verified`, `unverified` or `stale`. Only `atom-verifier` or a human who ran it may set `verified`. Writing `verified` without a recorded response is the single worst thing you can do in this repo.
@@ -63,7 +63,7 @@ Field rules that catch people out:
 Optional fields:
 
 - `fix.deterministic: true` on an error atom that has exactly one known fix. The compiler emits it as a direct action and the skill skips the Decide phase. Use it only when there is genuinely no judgement involved.
-- `depth: reference` on UHI and NHCX atoms that carry sections 1 to 3 only.
+- `depth: reference` on a Phase 2 atom that carries sections 1 to 3 only. Nothing in Phase 1 may use it: an HIE-CM M1 to M3 atom is dummy proof or it is not done.
 
 ## The five body sections
 

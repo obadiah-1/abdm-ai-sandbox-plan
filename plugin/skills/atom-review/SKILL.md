@@ -69,7 +69,7 @@ Run the `writing-guide` checklist. Most commonly caught: banned words, unnamed p
 
 - Is this one atom or two? Two flows, two types, or two milestones in one file means split.
 - Is anything here Eka-specific? It does not belong in the core Catalogue. See `dpg-governance`.
-- Is the depth label right? A UHI atom with confident sections 4 and 5 that were never run is mislabelled.
+- Is the scope right? Everything in V1 is HIE-CM M1 to M3. An atom for M4, UHI or NHCX does not belong in this Catalogue yet, however good it is.
 
 ## Failure modes reviewers miss
 

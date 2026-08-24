@@ -177,7 +177,7 @@ Worth being explicit, because the boundary is where mistakes will happen.
 |---|---|
 | "What are the seven principles?" | Compiled skill. Stable, needs no network. |
 | "What ships at the next checkpoint?" | Compiled skill, with a version check, because dates move. |
-| "Why did we choose reference depth for UHI?" | Compiled skill. It is in the plan's rationale. |
+| "Why is NHCX out of scope?" | Compiled skill. It is in the plan's rationale. |
 | "What changed in the plan last week?" | Retrieval, over `plan-history`. |
 | "Has anyone written down how we handle X?" | Retrieval, over the whole docs site including the plan. |
 | "Is my understanding of the schedule current?" | Manifest check, then retrieval if stale. |

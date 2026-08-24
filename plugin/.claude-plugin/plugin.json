@@ -1,7 +1,7 @@
 {
   "name": "abdm-portal",
-  "version": "0.1.0",
-  "description": "Build and operate the ABDM Developer Portal: one Catalogue of NHA's three gateways (HIE-CM, UHI, NHCX) that renders as human documentation and compiles into agent skills, MCP surfaces and a plugin. Covers atom authoring, verification, linting, OpenAPI ingestion, Scalar docs, skill compilation, the update pipeline, the support agent, planning and proof.",
+  "version": "0.2.0",
+  "description": "Build and operate the ABDM Developer Portal: one Catalogue of NHA's HIE-CM gateway, M1 to M3 in Phase 1, that renders as human documentation and compiles into agent skills, MCP surfaces and a plugin. Covers atom authoring, verification, linting, OpenAPI ingestion, Scalar docs, skill compilation, the update pipeline, the support agent, planning and proof.",
   "author": {
     "name": "ABDM Developer Portal working group"
   },
@@ -10,7 +10,6 @@
     "abdm",
     "hiecm",
     "uhi",
-    "nhcx",
     "documentation",
     "catalogue",
     "agent-skills",

@@ -55,7 +55,7 @@ Both are legitimate. Confusing them is the failure mode.
 |---|---|
 | What are the seven principles | Compiled skill |
 | What ships at the next checkpoint | Compiled skill, with a version check |
-| Why reference depth for UHI | Compiled skill |
+| Why NHCX is out of scope | Compiled skill |
 | What changed in the plan last week | Retrieval over `plan-history` |
 | Has anyone written down how we handle this | Retrieval over the whole docs site |
 | Is my understanding of the schedule current | Manifest check, then retrieval if stale |

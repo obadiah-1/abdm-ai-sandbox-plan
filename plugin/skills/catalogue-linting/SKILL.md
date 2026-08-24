@@ -18,7 +18,7 @@ Run everything locally before pushing: `/catalogue-lint`.
 | `schema.required` | `missing required field: <field>` | Add the field. See `atom-authoring` for the full schema. |
 | `schema.id-format` | `id must be gateway.type.slug` | Lowercase, three parts, matches the file's location. |
 | `schema.id-unique` | `duplicate id: <id>` | Ids are never reused. Pick a new slug; do not recycle a retired one. |
-| `schema.gateway-enum` | `gateway must be one of hiecm, uhi, nhcx, shared` | Fix the value. Shared atoms use `milestone: n/a`. |
+| `schema.gateway-enum` | `gateway must be one of hiecm, uhi, shared` | Fix the value. Shared atoms use `milestone: n/a`. `nhcx` is not in the enum because NHCX is out of scope, and that is the enforcement, not an oversight. |
 | `schema.type-enum` | `unknown type: <type>` | One of the ten types. If it fits none, it is probably two atoms. |
 | `schema.verified-enum` | `verified.status must be verified, unverified or stale` | Fix. If unsure, `unverified` is always safe. |
 | `schema.verified-evidence` | `status is verified but no response block found in body` | Either record the observed response or set `unverified`. This rule exists to stop fabricated verification. |

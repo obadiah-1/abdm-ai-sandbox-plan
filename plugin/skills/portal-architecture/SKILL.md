@@ -1,9 +1,9 @@
 ---
 name: portal-architecture
 description: The architecture of the ABDM Developer Portal: the four building blocks, how the Catalogue compiles into docs, skills and MCP surfaces, the seven binding principles, the atom model, and what is deliberately excluded from V1. Use whenever someone asks how the portal fits together, why a design decision was made, whether something belongs in V1, where a new capability should live, or proposes a change to the structure. Also use before designing any new component so it lands in the right layer instead of beside it.
-plan_version: 2026.08.24-2
+plan_version: 2026.08.24-3
 plan_source: abdm-v1-phase1-architecture-and-plan.md
-plan_hash: sha256:ba59c7811699e974481f4e93874b2bc557d7a2b3e1a177d5d2dce12213d94939
+plan_hash: sha256:3e7db9ec428e6adc7fc37b91679d67b580def71fdb293ed72f5d6b8cebe8aded
 compiled_from_plan: true
 ---
 
@@ -42,7 +42,7 @@ A principle without an enforcement mechanism is a wish. Each of these has one.
 
 | # | Principle | Enforced by |
 |---|---|---|
-| P1 | Cover HIE-CM, UHI and NHCX | Mandatory `gateway` field. The index skill refuses to build if a gateway has zero verified atoms. |
+| P1 | Scope is phased and declared, never implied: HIE-CM M1 to M3 now, M4 and UHI in Phase 2, NHCX out of scope | Mandatory `gateway` field. The index skill refuses to build if a Phase 1 milestone has zero verified atoms, and lint rejects any atom with `gateway: nhcx`. |
 | P2 | Documentation is the knowledge base that powers everything | Skills, llms.txt, MCP resources and the support agent are build outputs. CI fails on any identifier not in the Catalogue. |
 | P3 | No em dashes, write like a person | A CI rule blocks U+2014. The writing guide is in the repo and in the compiler prompt. |
 | P4 | Human and machine readable from one source | Typed atoms: frontmatter is the machine half, body is the human half, structured blocks are fenced with a declared schema. |
@@ -87,23 +87,25 @@ Use this when someone proposes a capability and you need to place it.
 | Anything Eka-specific | The overlay repo. Not the core Catalogue. See `dpg-governance`. |
 | Conformance evidence, ledger, gate, simulators | Phase 2. They depend on this Catalogue existing first. |
 
-## Gateway depth in V1
+## Gateway scope and phasing in V1
 
-Three gateways at full depth in the available time is not possible, so depth is declared rather than implied. HIE-CM M1 to M3 is dummy proof, M4 is concept and endpoint level, UHI and NHCX are reference depth with sections 1 to 3 written and sections 4 and 5 marked unverified. The landing page, the index skill and the frontmatter all carry the label.
+Scope is phased rather than thinned. Phase 1 is HIE-CM M1 to M3, dummy proof. HIE-CM M4 and UHI are Phase 2 and nothing is written for them in V1. NHCX is out of scope, which is not the same as deferred: no NHCX atom is written and no NHCX skill ships. The landing page, the index skill and the frontmatter all carry the phase.
 
-A half-verified page that says unverified is useful. A confident wrong page is harmful. That is the entire argument, and it should be repeated whenever someone suggests hiding the labels.
+One gateway at three milestones, fully proven, beats three gateways half-written. Reference-depth pages for gateways nobody is integrating this quarter cost the review time M1 to M3 needs. A confident wrong page is harmful; a page that does not exist is merely absent, and the index says so out loud. Repeat that whenever someone suggests slipping UHI or NHCX back in "since the schema supports it".
 
 ## Explicitly not in V1
 
 Naming these prevents scope creep by accretion.
 
+- HIE-CM M4 and UHI. Phase 2, not V1
+- NHCX, entirely. Out of scope rather than deferred, and lint enforces it
 - The conformance harness, ledger, gate and simulators
 - Execute-mode MCP exposed publicly
 - Any Eka-specific overlay content in the core Catalogue
 - Multi-agent orchestration. The index routes, a single agent executes.
 - Generated SDKs
 
-If someone wants one of these, the answer is not no. The answer is Phase 2, and the reason is that each of them depends on a Catalogue that does not exist yet.
+If someone wants one of these, the answer is not no, it is Phase 2, because each depends on a Catalogue that does not exist yet. NHCX is the exception: the answer there is no, and it is a scope decision rather than a sequencing one.
 
 ## Related
 
