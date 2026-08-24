@@ -36,7 +36,7 @@ On a change:
 On a plan change:
 
 1. Hash it and compare against `plan_hash` in `manifest.json`, not against your own stored hash. The manifest is the declared state; a mismatch means the plan moved without the plugin moving with it
-2. Report which of the sections in `plan#0` to `plan#12` changed
+2. Report which sections changed, by their stable ids, `plan#p0-summary` through `plan#p12-sources`
 3. Name every skill in the manifest's `compiled_skills` as needing a rebuild. Do not rebuild them yourself, that is the compiler's job
 4. Flag it as breaking when the diff touches a principle, a date, an owner or a definition of done criterion. These four are the ones people act on, and a silent change to one of them is the expensive failure
 5. Open one pull request, with the plan diff and the list of skills it invalidates

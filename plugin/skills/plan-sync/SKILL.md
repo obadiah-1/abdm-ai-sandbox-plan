@@ -114,6 +114,8 @@ Check once per session, not per question. Repeating the notice is noise.
 2. Copy the version you are replacing to `plan-history/plan-<old plan_version>.md`. Never delete one
 3. Recompile the four skills in `plugin/skills/` from the edited plan, and restamp `plan_version` in each one's frontmatter
 4. Bump `plan_version` and `plan_hash` in `manifest.json`. Set `breaking: true` if a principle, a date, an owner or a definition of done criterion changed
+
+   `plan_version` is the date of the change, `2026.08.24`. A second change on the same day appends a counter, `2026.08.24-2`, then `-3`. Dates sort correctly as strings and tell a reader how stale they are at a glance, which a serial number does not. Never reuse a version: a skill stamped with one is claiming to be built from exactly that text.
 5. Run `./scripts/plan-check.sh`. It fails until steps 3 and 4 are both done, which is the point: the plan cannot move without the plugin moving with it
 6. Open a pull request. The diff shows the plan change **and the diff of the four compiled skills** side by side, because a small prose change can materially change a compiled instruction. Review against four questions: does this change a principle, a date, an owner, or a definition of done criterion
 7. Merge. The manifest at `main` is now what installed plugins compare themselves against
@@ -125,7 +127,7 @@ Steps 3 to 5 are not optional politeness. `scripts/plan-check.sh` is the enforce
 | Rule | Catches |
 |---|---|
 | `plan.principles-complete` | A principle in the plan that reaches no compiled skill, and is therefore unenforceable |
-| `plan.section-refs-resolve` | A skill citing `plan#some-id` that does not exist |
+| `plan.section-refs-resolve` | A skill citing a plan section id that does not exist |
 | `plan.no-new-commitments` | The prose pass inventing a date, owner, checkpoint or done criterion |
 | `plan.done-criteria-count` | Silent loss of a done criterion between the plan and `portal-planning` |
 | `scripts/plan-check.sh` | The plan edited without bumping the manifest, or without restamping a compiled skill. The one rule that runs with no build system present |
@@ -134,9 +136,20 @@ The last one exists because losing a done criterion is invisible at review time 
 
 ## Citing plan sections
 
-The plan is numbered, section 0 to section 12, and skills cite the number and name together: `plan#4 Skills, plugin and index`. The number is the stable part; GitHub's own heading anchor is not, because it is derived from the full heading text and breaks on any reword.
+Every section carries a stable id, declared in the plan as an anchor tag on the line above its heading:
 
-Renumbering or renaming a section is a breaking change. Bump with `breaking: true` and fix every citation in the same commit, exactly as with renaming an atom id. Inserting a section between two existing ones renumbers everything after it, which is why new material goes at the end unless there is a real reason not to.
+```markdown
+<a id="p4-skills"></a>
+## 4. Skills, plugin and index: compiled, not written
+```
+
+Skills cite `plan#p4-skills`. The scheme is `p<section number>-<short slug>`, and subsections append their own number, `p4-2-ooda` for §4.2. The id is deliberately shorter than the heading and independent of it, so rewording a heading breaks nothing.
+
+Do not cite GitHub's generated heading anchor. It is derived from the full heading text and changes on any reword, which is the exact failure the ids exist to prevent.
+
+**Renaming or removing a section id is a breaking change.** Bump with `breaking: true` and fix every citation in the same commit, exactly as with renaming an atom id. `scripts/plan-check.sh` greps every plan section citation in the plugin and fails on any that no longer resolves, so a rename cannot be half-done.
+
+The section number in an id is a label, not a promise about ordering. Renumbering headings does not force an id change, and does not have to: `p4-skills` stays `p4-skills` even if it becomes section 5, because the id is what citations depend on. Only rename an id when the section it names is genuinely gone or has become something else.
 
 ## What this does not solve
 

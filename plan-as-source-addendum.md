@@ -83,7 +83,7 @@ compiles_to:
   - abdm-portal-index
 ```
 
-Until section ids are added, the plan's numbered sections are the citation key: compiled skills cite `plan#4 Skills, plugin and index`, number and name together. The number is the stable half; GitHub's derived heading anchor is not, because it breaks on any reword. Renumbering or renaming a section is a breaking change and needs every citation fixed in the same commit, exactly like renaming an atom id. New sections go at the end, because inserting one renumbers everything after it.
+Every section carries a stable id, declared as an anchor tag above its heading, so compiled skills cite `plan#p4-skills` rather than a heading anchor that moves. The scheme is `p<number>-<short slug>`, with subsections appending their own number: `p4-2-ooda` for §4.2. Renaming or removing an id is a breaking change and needs every citation fixed in the same commit, exactly like renaming an atom id. `scripts/plan-check.sh` enforces resolution.
 
 The five dummy-proof body sections do not apply to a plan atom. Plan atoms are exempt in the lint rule set, and they carry their own required sections instead: principles, scope, schedule, definition of done, risks.
 

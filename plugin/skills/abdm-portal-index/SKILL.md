@@ -1,9 +1,9 @@
 ---
 name: abdm-portal-index
 description: Router for all ABDM Developer Portal build work. Use this FIRST whenever anyone asks about building, planning, writing, reviewing, compiling, publishing or testing the ABDM Catalogue, the Scalar docs site, the agent skills, the MCP servers, the update pipeline, or the portal's schedule and scope. Triggers include "write an atom", "review this page", "the catalogue", "lint failed", "compile the skills", "which milestone am I on", "what ships Friday", "is this DPG compliant", "ingest NHA swagger", "the support agent", and any mention of HIE-CM, UHI or NHCX documentation work. Route from here rather than guessing which skill applies.
-plan_version: 2026.08.24
+plan_version: 2026.08.24-2
 plan_source: abdm-v1-phase1-architecture-and-plan.md
-plan_hash: sha256:06c6c63ff356032b731619d850df7794c6888c903b35ecee5c701fa3270306c3
+plan_hash: sha256:ba59c7811699e974481f4e93874b2bc557d7a2b3e1a177d5d2dce12213d94939
 compiled_from_plan: true
 ---
 

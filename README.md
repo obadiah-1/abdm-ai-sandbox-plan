@@ -9,7 +9,7 @@ Everything for the ABDM Developer Portal V1 in one place.
 - `plugin/` the `abdm-portal` plugin: 16 skills, 6 agents, 11 commands that build and operate the portal. Install this to start work. See `plugin/README.md`.
 - `manifest.json` the plan's version, content hash and the list of skills compiled from it. This is what an installed plugin fetches to notice it is stale.
 - `scripts/plan-check.sh` the gate. Fails when the plan has changed but the manifest or the compiled skills have not.
-- `plan-history/` superseded versions of the plan, never deleted. Created on the first version bump.
+- `plan-history/` superseded versions of the plan, never deleted, one file per `plan_version`.
 
 ## Reading order
 
@@ -30,6 +30,10 @@ The plan is the fundamental source. Every change to it must reach the plugin, so
 ```sh
 ./scripts/plan-check.sh
 ```
+
+`plan_version` is the date of the change, with a counter appended for a second change on the same day: `2026.08.24`, then `2026.08.24-2`.
+
+Plan sections carry stable ids, declared as an anchor tag above each heading, so skills cite `plan#p4-skills` rather than a heading anchor that breaks on any reword. The gate checks that every id cited in the plugin still resolves, which makes renaming one a change you cannot half-finish.
 
 Full procedure, and what the version stamp is for: `plugin/skills/plan-sync/SKILL.md`.
 
