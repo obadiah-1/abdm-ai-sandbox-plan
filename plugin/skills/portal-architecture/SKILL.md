@@ -1,9 +1,9 @@
 ---
 name: portal-architecture
 description: 'The architecture of the ABDM Developer Portal: the four building blocks, how the Catalogue compiles into docs, skills and MCP surfaces, the seven binding principles, the atom model, and what is deliberately excluded from V1. Use whenever someone asks how the portal fits together, why a design decision was made, whether something belongs in V1, where a new capability should live, or proposes a change to the structure. Also use before designing any new component so it lands in the right layer instead of beside it.'
-plan_version: 2026.08.24-4
+plan_version: 2026.08.25
 plan_source: abdm-v1-phase1-architecture-and-plan.md
-plan_hash: sha256:cdb2f0b61402cf7f7d4a278a16a65b77d8dc43d0bb3056ee8039124700aee0d6
+plan_hash: sha256:98cdd2c12b0b0e285b294bde2e817ea353a52568a81d9b34b13bac88086a950c
 compiled_from_plan: true
 ---
 
@@ -90,9 +90,11 @@ Use this when someone proposes a capability and you need to place it.
 
 ## Gateway scope and phasing in V1
 
-Scope is phased rather than thinned. Phase 1 is HIE-CM M1 to M3, dummy proof. HIE-CM M4 and UHI are Phase 2 and nothing is written for them in V1. NHCX is out of scope, which is not the same as deferred: no NHCX atom is written and no NHCX skill ships. The landing page, the index skill and the frontmatter all carry the phase.
+Scope is phased rather than thinned. Phase 1 is HIE-CM M1 to M3, dummy proof. HIE-CM M4 and UHI are Phase 2. NHCX is out of scope, which is not the same as deferred: it gets no atoms, no reference and no skill, ever.
 
-One gateway at three milestones, fully proven, beats three gateways half-written. Reference-depth pages for gateways nobody is integrating this quarter cost the review time M1 to M3 needs. A confident wrong page is harmful; a page that does not exist is merely absent, and the index says so out loud. Repeat that whenever someone suggests slipping UHI or NHCX back in "since the schema supports it".
+Out of Phase 1 is not an empty page. Each of the three has one orientation page built from NHA's own documents: what it is, whether the reader needs it, where NHA documents it. That is the whole content and it is labelled as such. The landing page, the index skill and the frontmatter all carry the phase.
+
+One gateway at three milestones, fully proven, beats three gateways half-written. Reference-depth pages for gateways nobody is integrating this quarter cost the review time M1 to M3 needs. A confident wrong page is harmful; an orientation page that says where to go instead is not. What is never acceptable is something shaped like a reference that has not been run. Repeat that whenever someone suggests slipping UHI or NHCX back in "since the schema supports it".
 
 ## Explicitly not in V1
 
