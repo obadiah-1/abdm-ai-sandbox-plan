@@ -1,9 +1,9 @@
 ---
 name: portal-architecture
 description: 'The architecture of the ABDM Developer Portal: the four building blocks, how the Catalogue compiles into docs, skills and MCP surfaces, the seven binding principles, the atom model, and what is deliberately excluded from V1. Use whenever someone asks how the portal fits together, why a design decision was made, whether something belongs in V1, where a new capability should live, or proposes a change to the structure. Also use before designing any new component so it lands in the right layer instead of beside it.'
-plan_version: 2026.08.25
+plan_version: 2026.08.25-2
 plan_source: abdm-v1-phase1-architecture-and-plan.md
-plan_hash: sha256:98cdd2c12b0b0e285b294bde2e817ea353a52568a81d9b34b13bac88086a950c
+plan_hash: sha256:fd8dab1b7ea69f85893d2e6d710a2265ecbbbbb8e94d33a3852e5ae77e2c7fdd
 compiled_from_plan: true
 ---
 
@@ -48,7 +48,7 @@ A principle without an enforcement mechanism is a wish. Each of these has one.
 | P3 | No em dashes, write like a person | A CI rule blocks U+2014. The writing guide is in the repo and in the compiler prompt. |
 | P4 | Human and machine readable from one source | Typed atoms: frontmatter is the machine half, body is the human half, structured blocks are fenced with a declared schema. |
 | P5 | Fool, idiot and dummy proof | Five mandatory sections per atom or CI rejects it. The first-day developer test is in the definition of done. |
-| P6 | FOSS, replicable, no Eka dependency, no vendor cloud | Catalogue in a public git repo under a neutral licence, copyright NHA. Everything self-hosted from day one: Docusaurus with the MIT Scalar packages vendored, no CDN, no Scalar cloud services, telemetry off, our own Go MCP server, embeddings from a self-hosted Ollama sidecar. The handover unit is one compose file. No `eka.care` URL anywhere in the core Catalogue. Eka content lives in a separate overlay repo. |
+| P6 | FOSS, replicable, no Eka dependency, no vendor cloud | Catalogue in a public git repo under a neutral licence, copyright NHA. Everything self-hosted from day one: Docusaurus with the MIT Scalar packages vendored, no CDN, no Scalar cloud services, telemetry off, our own Go MCP server. Embeddings are chosen per deployment by one environment value: Bedrock (Titan V2) inside the operator's own AWS account in production, or a self-hosted Ollama sidecar for deployments without AWS model access, so the fully self-hosted exit stays open. The handover unit is one compose file, single container on the Bedrock path. No `eka.care` URL anywhere in the core Catalogue. Eka content lives in a separate overlay repo. |
 | P7 | Update once, everything moves | Source watcher opens a pull request. Merge triggers docs publish, skill recompile, plugin version bump. |
 
 When someone proposes something that breaks a principle, name the principle and the enforcement, not just the objection.

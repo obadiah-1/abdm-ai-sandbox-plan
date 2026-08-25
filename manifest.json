@@ -1,13 +1,13 @@
 {
-  "plan_version": "2026.08.25",
-  "plan_hash": "sha256:98cdd2c12b0b0e285b294bde2e817ea353a52568a81d9b34b13bac88086a950c",
+  "plan_version": "2026.08.25-2",
+  "plan_hash": "sha256:fd8dab1b7ea69f85893d2e6d710a2265ecbbbbb8e94d33a3852e5ae77e2c7fdd",
   "plan_path": "abdm-v1-phase1-architecture-and-plan.md",
   "plan_url": "https://raw.githubusercontent.com/obadiah-1/abdm-ai-sandbox-plan/main/abdm-v1-phase1-architecture-and-plan.md",
   "plan_page_url": "https://github.com/obadiah-1/abdm-ai-sandbox-plan/blob/main/abdm-v1-phase1-architecture-and-plan.md",
   "changelog_url": "https://github.com/obadiah-1/abdm-ai-sandbox-plan/commits/main/abdm-v1-phase1-architecture-and-plan.md",
   "history_path": "plan-history/",
   "section_ids": "pN-slug, declared inline in the plan as anchor tags. Skills cite plan#<id>.",
-  "breaking": true,
+  "breaking": false,
   "compiled_skills": [
     "portal-architecture",
     "portal-planning",

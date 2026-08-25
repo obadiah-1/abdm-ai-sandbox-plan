@@ -1,9 +1,9 @@
 ---
 name: dpg-governance
 description: 'The digital public good constraint on the ABDM Developer Portal: FOSS licensing, no dependency on Eka infrastructure or APIs, the overlay repo boundary for vendor-specific content, governance files, and the acceptance test that proves decoupling. Use whenever anything touches licensing, vendor-specific content, hosting dependencies, contribution process, or when someone proposes adding an Eka endpoint, credential format or URL to the core Catalogue. Also use before any public release.'
-plan_version: 2026.08.25
+plan_version: 2026.08.25-2
 plan_source: abdm-v1-phase1-architecture-and-plan.md
-plan_hash: sha256:98cdd2c12b0b0e285b294bde2e817ea353a52568a81d9b34b13bac88086a950c
+plan_hash: sha256:fd8dab1b7ea69f85893d2e6d710a2265ecbbbbb8e94d33a3852e5ae77e2c7fdd
 compiled_from_plan: true
 ---
 
@@ -65,7 +65,7 @@ The framework is credible only if someone else can contribute meaningfully. In p
 
 ## Hosting dependencies
 
-Everything is self-hosted from day one: no hosted-Scalar phase, no vendor cloud dependency. Docusaurus with the MIT Scalar packages vendored at build time, nothing loading from a CDN, every Scalar cloud touchpoint off (request proxy, Ask AI, hosted API client link, telemetry, platform toolbar). The exit is already taken, and kept open by the content rules in `scalar-docs`: plain markdown, MDX only for callouts and steps, every page readable as raw `.md`. The handover unit is one compose file: the docs-mcp distroless image plus stock Ollama with the model volume.
+Everything is self-hosted from day one: no hosted-Scalar phase, no vendor cloud dependency. Docusaurus with the MIT Scalar packages vendored at build time, nothing loading from a CDN, every Scalar cloud touchpoint off (request proxy, Ask AI, hosted API client link, telemetry, platform toolbar). The exit is already taken, and kept open by the content rules in `scalar-docs`: plain markdown, MDX only for callouts and steps, every page readable as raw `.md`. The handover unit is one compose file: the docs-mcp distroless image alone on the Bedrock path, where embeddings come from the operator's own AWS account, or with stock Ollama and its model volume as the no-cloud fallback profile.
 
 The test: could this Catalogue be rendered by a different static site generator in a week, losing only visual polish? If the answer becomes no, the constraint has eroded.
 

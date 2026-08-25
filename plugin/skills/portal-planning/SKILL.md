@@ -1,9 +1,9 @@
 ---
 name: portal-planning
 description: The ABDM Developer Portal schedule, workstreams, ownership split, two-day shipping increments, definition of done, and risk register. Use whenever someone asks what ships when, what is blocked, who owns a piece of work, whether V1 is on track, what counts as finished, how to sequence a task, or wants a standup, a status update, or a re-plan. Also use when scope is being added or cut so the trade is made against the schedule rather than in the abstract.
-plan_version: 2026.08.25
+plan_version: 2026.08.25-2
 plan_source: abdm-v1-phase1-architecture-and-plan.md
-plan_hash: sha256:98cdd2c12b0b0e285b294bde2e817ea353a52568a81d9b34b13bac88086a950c
+plan_hash: sha256:fd8dab1b7ea69f85893d2e6d710a2265ecbbbbb8e94d33a3852e5ae77e2c7fdd
 compiled_from_plan: true
 ---
 
@@ -77,8 +77,8 @@ Each risk carries the decision it needs, because an unowned risk is just anxiety
 | An existing community docs site overlaps heavily | Reach out early, propose the Catalogue as shared upstream | Product makes the call and the call |
 | The time available is not enough for three gateways at full depth | Phase 1 is HIE-CM M1 to M3 only. M4 and UHI are Phase 2, NHCX is out of scope | Needs sign-off, already decided in the plan |
 | The prose pass invents facts | Validator diffs every identifier against the Catalogue, any new token fails the build | None, it is a hard rule |
-| The Docs MCP is public with no auth in V1 | Read-only server over public docs; rate limiting at the reverse proxy; Ollama sidecar never exposed | Add auth and quotas only when abuse is observed |
-| Ollama sidecar down at query time | Search degrades to keyword-only by design; `/healthz` reports `embeddings: false` | None, the degradation is tested |
+| The Docs MCP is public with no auth in V1 | Read-only server over public docs; rate limiting at the reverse proxy; the embedding provider is never exposed | Add auth and quotas only when abuse is observed |
+| Embedding provider unreachable | A deployment that cannot attach its model fails its rollout: absent provider, failed startup probe and mismatched index stamp all refuse to start. Only an explicit `none` serves keyword-only, and `/healthz` reports `embeddings: false` | None, the failure modes are tested |
 | Sandbox credentials take three to four days | Apply on day one, in parallel with schema work | Apply immediately |
 
 ## Sequencing rules
