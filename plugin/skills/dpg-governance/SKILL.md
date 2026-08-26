@@ -1,9 +1,9 @@
 ---
 name: dpg-governance
 description: 'The digital public good constraint on the ABDM Developer Portal: FOSS licensing, no dependency on Eka infrastructure or APIs, the overlay repo boundary for vendor-specific content, governance files, and the acceptance test that proves decoupling. Use whenever anything touches licensing, vendor-specific content, hosting dependencies, contribution process, or when someone proposes adding an Eka endpoint, credential format or URL to the core Catalogue. Also use before any public release.'
-plan_version: 2026.08.25-2
+plan_version: 2026.08.25-3
 plan_source: abdm-v1-phase1-architecture-and-plan.md
-plan_hash: sha256:fd8dab1b7ea69f85893d2e6d710a2265ecbbbbb8e94d33a3852e5ae77e2c7fdd
+plan_hash: sha256:b1f89d1162de6c4df7f3d373b80bc728505297d9dc9d6b67cb38e2260c13523f
 compiled_from_plan: true
 ---
 

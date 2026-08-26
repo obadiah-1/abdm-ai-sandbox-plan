@@ -28,7 +28,7 @@ from openpyxl.utils import get_column_letter as L
 from openpyxl.worksheet.datavalidation import DataValidation
 from openpyxl.worksheet.table import Table, TableStyleInfo
 
-PLAN_VERSION = "2026.08.25-2"
+PLAN_VERSION = "2026.08.25-3"
 SHEET_URL = "https://docs.google.com/spreadsheets/d/17OkDm9-wUSgMZ5G2Tegv69-MP-aXTdjjjN37t4-HxSE/edit"
 
 NAVY, BAND, PLAN = "14274E", "E8EDF7", "A9C3F0"
