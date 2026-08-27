@@ -282,26 +282,56 @@ Create `DOCS_REPO/scripts/check-plan-stamp.test.mjs`. It uses the Node built in 
 ```javascript
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { checkStamps, checkCitations } from './check-plan-stamp.mjs';
+import { checkStamps, checkCitations, parseStamp, citedIds } from './check-plan-stamp.mjs';
 
-test('a skill stamped with the manifest version passes', () => {
+test('a skill in compiled_skills stamped with the manifest version passes', () => {
   const skills = [{ name: 'portal-architecture', plan_version: '2026.08.25' }];
-  const problems = checkStamps(skills, '2026.08.25');
+  const problems = checkStamps(skills, ['portal-architecture'], '2026.08.25');
   assert.deepEqual(problems, []);
 });
 
-test('a skill stamped with an older version fails and names both versions', () => {
+test('a skill in compiled_skills stamped with an older version fails and names both versions', () => {
   const skills = [{ name: 'portal-architecture', plan_version: '2026.08.24' }];
-  const problems = checkStamps(skills, '2026.08.25');
+  const problems = checkStamps(skills, ['portal-architecture'], '2026.08.25');
   assert.equal(problems.length, 1);
   assert.match(problems[0], /portal-architecture/);
   assert.match(problems[0], /2026\.08\.24/);
   assert.match(problems[0], /2026\.08\.25/);
 });
 
-test('a skill with no plan_version is ignored, because only compiled skills carry one', () => {
-  const skills = [{ name: 'writing-guide', plan_version: undefined }];
-  assert.deepEqual(checkStamps(skills, '2026.08.25'), []);
+test('a skill carrying a correct stamp but absent from compiled_skills is not checked', () => {
+  const skills = [{ name: 'writing-guide', plan_version: '2026.08.24' }];
+  assert.deepEqual(checkStamps(skills, [], '2026.08.25'), []);
+});
+
+test('a skill named in compiled_skills with no stamp fails and says the stamp is missing', () => {
+  const skills = [{ name: 'skill-compiler', plan_version: undefined }];
+  const problems = checkStamps(skills, ['skill-compiler'], '2026.08.25');
+  assert.equal(problems.length, 1);
+  assert.match(problems[0], /skill-compiler/);
+  assert.match(problems[0], /no plan_version stamp/);
+});
+
+test('plan_version inside a fenced code block in the body is not treated as a stamp', () => {
+  const raw = [
+    '---',
+    'name: skill-compiler',
+    '---',
+    '',
+    'Every plan-derived skill carries four extra frontmatter keys:',
+    '',
+    '```yaml',
+    'plan_version: 2026.08.24',
+    'plan_source: abdm-v1-phase1-architecture-and-plan.md',
+    '```',
+    '',
+  ].join('\n');
+  assert.equal(parseStamp(raw), undefined);
+});
+
+test('plan_version in the frontmatter block is read as the stamp', () => {
+  const raw = '---\nname: portal-architecture\nplan_version: 2026.08.25\n---\nbody text';
+  assert.equal(parseStamp(raw), '2026.08.25');
 });
 
 test('a cited plan id that the plan defines passes', () => {
@@ -313,6 +343,12 @@ test('a cited plan id the plan does not define fails and names the id', () => {
   const problems = checkCitations(['p9-ghost'], '<a id="p4-skills"></a>');
   assert.equal(problems.length, 1);
   assert.match(problems[0], /p9-ghost/);
+});
+
+test('citedIds ignores the literal string plan#id in prose but finds real plan#pN-slug citations', () => {
+  const ids = citedIds();
+  assert.ok(!ids.includes('id'), 'plan#id in DRIFT-AUDIT prose must not be treated as a citation');
+  assert.ok(ids.includes('p8-schedule'), 'a real plan#p8-schedule citation must still be found');
 });
 ```
 
@@ -344,13 +380,18 @@ const MANIFEST_URL =
 const PLAN_URL =
   'https://raw.githubusercontent.com/obadiah-1/abdm-ai-sandbox-plan/main/abdm-v1-phase1-architecture-and-plan.md';
 
-export function checkStamps(skills, wantVersion) {
+export function checkStamps(skills, compiledSkills, wantVersion) {
+  const byName = new Map(skills.map((s) => [s.name, s]));
   const problems = [];
-  for (const s of skills) {
-    if (s.plan_version === undefined) continue;
-    if (s.plan_version !== wantVersion) {
+  for (const name of compiledSkills) {
+    const s = byName.get(name);
+    if (s === undefined || s.plan_version === undefined) {
       problems.push(
-        `${s.name} is stamped plan_version ${s.plan_version}, the published plan is ${wantVersion}. Recompile it from the plan and restamp.`
+        `${name} is listed in manifest.compiled_skills but carries no plan_version stamp. Recompile it from the plan and restamp.`
+      );
+    } else if (s.plan_version !== wantVersion) {
+      problems.push(
+        `${name} is stamped plan_version ${s.plan_version}, the published plan is ${wantVersion}. Recompile it from the plan and restamp.`
       );
     }
   }
@@ -369,15 +410,23 @@ export function checkCitations(ids, planText) {
   return problems;
 }
 
+// Reads the stamp from the frontmatter block only (between the opening ---
+// and the next ---), so a documentation example inside a fenced code block
+// in the body is never mistaken for a real stamp.
+export function parseStamp(raw) {
+  const fm = raw.match(/^---\n([\s\S]*?)\n---/);
+  if (!fm) return undefined;
+  const m = fm[1].match(/^plan_version:\s*(\S+)\s*$/m);
+  return m ? m[1] : undefined;
+}
+
 export function readSkills() {
   const dir = join(PLUGIN, 'skills');
   if (!existsSync(dir)) return [];
   return readdirSync(dir).flatMap((name) => {
     const file = join(dir, name, 'SKILL.md');
     if (!existsSync(file)) return [];
-    const raw = readFileSync(file, 'utf8');
-    const m = raw.match(/^plan_version:\s*(\S+)\s*$/m);
-    return [{ name, plan_version: m ? m[1] : undefined }];
+    return [{ name, plan_version: parseStamp(readFileSync(file, 'utf8')) }];
   });
 }
 
@@ -388,7 +437,7 @@ export function citedIds() {
       const p = join(d, e.name);
       if (e.isDirectory()) walk(p);
       else if (e.name.endsWith('.md') || e.name.endsWith('.json')) {
-        for (const m of readFileSync(p, 'utf8').matchAll(/plan#([a-z0-9.-]*[a-z0-9])/g)) {
+        for (const m of readFileSync(p, 'utf8').matchAll(/plan#(p[0-9][a-z0-9.-]*[a-z0-9])/g)) {
           found.add(m[1]);
         }
       }
@@ -412,7 +461,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   }
 
   const problems = [
-    ...checkStamps(readSkills(), manifest.plan_version),
+    ...checkStamps(readSkills(), manifest.compiled_skills, manifest.plan_version),
     ...checkCitations(citedIds(), planText),
   ];
 
@@ -425,6 +474,8 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 }
 ```
 
+The code above was corrected during execution: `readSkills()` now reads the stamp from the frontmatter block only, not the whole file, so a documentation example inside a fenced code block is never read as a real stamp, and `checkStamps()` now checks only skills named in `manifest.compiled_skills`, matching the citation regex tightened in the review that followed.
+
 - [ ] **Step 4: Run the test to verify it passes**
 
 ```bash
@@ -432,7 +483,7 @@ cd /Users/samdennis/code/abdm-docs
 node --test scripts/check-plan-stamp.test.mjs
 ```
 
-Expected: PASS, 5 tests.
+Expected: PASS, 9 tests.
 
 - [ ] **Step 5: Run the real check against the real plugin**
 
