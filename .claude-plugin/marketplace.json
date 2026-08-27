@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "abdm-portal",
-  "description": "The ABDM Developer Portal plan, and the plugin compiled from it",
+  "description": "The ABDM Developer Portal plan. The plugin it compiles into now lives in eka-care/abdm-docs.",
   "owner": {
     "name": "ABDM Developer Portal working group",
     "url": "https://github.com/obadiah-1/abdm-ai-sandbox-plan"
@@ -9,10 +9,14 @@
   "plugins": [
     {
       "name": "abdm-portal",
-      "source": "./plugin",
-      "description": "Build and operate the ABDM Developer Portal: atom authoring, verification, linting, OpenAPI ingestion, Scalar docs, skill compilation, the update pipeline, the support agent, planning and proof. Compiled from the architecture and execution plan in this repo.",
+      "source": {
+        "source": "github",
+        "repo": "eka-care/abdm-docs",
+        "path": ".claude/plugin"
+      },
+      "description": "Build and operate the ABDM Developer Portal. Lives in eka-care/abdm-docs, where the content it describes lives. Cloning that repository loads it without an install.",
       "category": "documentation",
-      "homepage": "https://github.com/obadiah-1/abdm-ai-sandbox-plan"
+      "homepage": "https://github.com/eka-care/abdm-docs"
     }
   ]
 }

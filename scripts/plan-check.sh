@@ -25,22 +25,9 @@ else
   echo "ok   plan matches manifest, plan_version $ver"
 fi
 
-# 2. every compiled skill is stamped with that version and hash
-for s in $(sed -n 's/^    "\([a-z-]*\)".*/\1/p' manifest.json); do
-  f="plugin/skills/$s/SKILL.md"
-  [ -f "$f" ] || { echo "FAIL $s named in compiled_skills but $f is missing"; fail=1; continue; }
-  got=$(sed -n 's/^plan_version: *//p' "$f")
-  goth=$(sed -n 's/^plan_hash: *sha256://p' "$f")
-  if [ "$got" != "$ver" ]; then
-    echo "FAIL $s stamped plan_version '$got', manifest says '$ver'"
-    fail=1
-  elif [ "$goth" != "$want" ]; then
-    echo "FAIL $s stamped a plan_hash that is not the manifest's"
-    fail=1
-  else
-    echo "ok   $s built from plan_version $got"
-  fi
-done
+# The compiled skill stamps are checked in eka-care/abdm-docs, at
+# scripts/check-plan-stamp.mjs, because the plugin lives there now. That check
+# fetches this repository's manifest.json.
 
 # 3. the gantt generator is built from that version too. Its TASKS table is
 #    compiled from plan#p8-schedule, so a schedule change that misses it ships a
@@ -60,13 +47,13 @@ else
   fi
 fi
 
-# 4. every plan#id cited anywhere in the plugin exists in the plan
+# 4. every plan#id cited anywhere in the gantt exists in the plan
 #    ponytail: grep, not a markdown parser. Fine while ids are plain anchor tags.
-for id in $(grep -rho 'plan#[a-z0-9.-]*' plugin/ gantt/ | sed -e 's/^plan#//' -e 's/\.$//' | sort -u); do
+for id in $(grep -rho 'plan#[a-z0-9.-]*' gantt/ | sed -e 's/^plan#//' -e 's/\.$//' | sort -u); do
   if grep -q "<a id=\"$id\"></a>" "$plan"; then
     echo "ok   plan#$id resolves"
   else
-    echo "FAIL plan#$id cited in the plugin but no such section id in $plan"
+    echo "FAIL plan#$id cited in the gantt but no such section id in $plan"
     fail=1
   fi
 done
