@@ -614,7 +614,7 @@ flowchart TD
 
 | Risk | Mitigation | Decision needed |
 |---|---|---|
-| No atom is verified against sandbox yet. All 95 written so far say `unverified`, while §7 promises dummy proof and §9 promises recorded responses | Credentials, then a verification sweep across M1 to M3 before ship. No `verified` stamp without a recorded response, and `lint-atoms.mjs` fails the build on one | The long pole. If credentials slip, ship honest `unverified` labels rather than a fabricated stamp |
+| Verification lags authoring badly. 142 atoms are written, 138 of them say `unverified` and only 4 are verified against sandbox, while §7 promises dummy proof and §9 promises recorded responses | Credentials, then a verification sweep across M1 to M3 before ship. No `verified` stamp without a recorded response, and `lint-atoms.mjs` fails the build on one | The long pole. If credentials slip, ship honest `unverified` labels rather than a fabricated stamp |
 | NHA swagger YAMLs are inconsistent or incomplete (known 403s on some V3 endpoints in sandbox) | Ingest, then hand-correct with `sources` recording both the NHA file and our correction; mark the endpoint unverified until sandbox confirms | Accept that some endpoints ship unverified in V1 |
 | Docusaurus guides and Scalar references are two rendering systems on one site | Keep prose in plain markdown, avoid MDX beyond callouts and steps, so it ports anywhere; specs stay the single source under `catalogue/openapi/` | Decided: fully self-hosted from day one, no hosted-Scalar phase |
 | abdm-docs.pages.dev overlaps heavily | Reach out to OHCN before 26 August; propose the Catalogue as the shared upstream | Product to make the call and the call |
