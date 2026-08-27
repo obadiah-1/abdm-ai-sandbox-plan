@@ -28,7 +28,7 @@ from openpyxl.utils import get_column_letter as L
 from openpyxl.worksheet.datavalidation import DataValidation
 from openpyxl.worksheet.table import Table, TableStyleInfo
 
-PLAN_VERSION = "2026.08.24-4"
+PLAN_VERSION = "2026.08.25"
 SHEET_URL = "https://docs.google.com/spreadsheets/d/17OkDm9-wUSgMZ5G2Tegv69-MP-aXTdjjjN37t4-HxSE/edit"
 
 NAVY, BAND, PLAN = "14274E", "E8EDF7", "A9C3F0"
@@ -54,7 +54,7 @@ TASKS = [
     ("1.5", "Write shared atoms",        "Catalogue", "Both",      date(2026, 8, 31), 2),
     ("1.6", "Verify and fix gaps",       "Catalogue", "Both",      date(2026, 9, 1),  2),
     ("2",   "Site and MCP",              "Site and MCP", "Shyamjith", None,            None),
-    ("2.1", "Set up self hosted site",   "Site and MCP", "Shyamjith", date(2026, 8, 25), 2),
+    ("2.1", "Self host the site",       "Site and MCP", "Shyamjith", date(2026, 8, 25), 2),
     ("2.2", "Module specs and nav",      "Site and MCP", "Shyamjith", date(2026, 8, 27), 1),
     ("2.3", "Build Docs MCP server",     "Site and MCP", "Shyamjith", date(2026, 8, 28), 1),
     ("2.4", "Wire deploys and publish",  "Site and MCP", "Shyamjith", date(2026, 8, 29), 1),
