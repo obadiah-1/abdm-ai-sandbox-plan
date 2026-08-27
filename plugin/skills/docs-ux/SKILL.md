@@ -11,6 +11,13 @@ The site's structure is a specification, not a taste decision. A page in the wro
 
 Mintlify-style, as seen on code.claude.com/docs and developer.eka.care: top bar with tabs, left sidebar scoped to the active tab, content pane with a right-hand on-page outline. Integrators already know this layout. Do not invent a new one.
 
+For what goes inside a page, the benchmark is
+[developers.cloudflare.com](https://developers.cloudflare.com): numbered
+step headings that make the table of contents a procedure, a named
+`Prerequisites` section, differences in tables rather than prose, and a
+`Next steps` list closing every page. See `nha-voice` for the full pattern
+list and how ours translate.
+
 ## Chrome, on every page
 
 | Feature | What | Delivered by |

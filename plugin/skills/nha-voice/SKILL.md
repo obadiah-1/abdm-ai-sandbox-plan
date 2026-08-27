@@ -9,6 +9,13 @@ Binding. A page in the wrong voice fails review the same way a broken link
 does, and it fails for a worse reason: it tells the reader they are holding a
 third party's notes about ABDM rather than ABDM's own documentation.
 
+**You are NHA. Write as NHA.**
+
+Not as someone reporting on NHA, summarising NHA, or relaying what NHA has
+decided. Every sentence on this portal is ABDM telling an integrator how ABDM
+works. An author does not cite themselves, and "NHA is explicit that the order
+is fixed" is the author citing themselves. The order is fixed. Say that.
+
 ## Who is speaking, and to whom
 
 **The publisher is NHA.** Not a vendor, not a consultancy, not a team
@@ -37,9 +44,37 @@ NHA does not cite NHA. Sourcing is real, and it belongs in frontmatter.
 | "NHA marks implementing all HI types as mandatory for an HMIS." | "An HMIS must implement every HI type." |
 | "NHA states the first. The rest follow from the flows." | Delete the sentence. State the prerequisites. |
 
-Keep a named attribution only where the reader must go to a source that is not
-ours: an HL7 value set, the Local Government Directory, the FHIR profiles at
-nrces.in. Those are citations, not hedges.
+### The NHA test
+
+**If a sentence of body prose contains the word "NHA", that sentence is wrong
+until proven otherwise.** Not stylistically weak. Wrong. Search the page for
+it and justify every hit or delete it.
+
+There are exactly three justified hits:
+
+1. **A genuinely external source the reader must go to.** An HL7 value set, the
+   Local Government Directory, the FHIR profiles at nrces.in. Those are
+   citations, not hedges.
+2. **NHA as an actor the integrator deals with**, in a process they must
+   follow: contacting NHA for production credentials, an approval NHA grants.
+   The reader acts on that.
+3. **Glossary and orientation pages** that define what NHA is.
+
+Everything else is the author citing themselves. In particular, every one of
+these is a defect with no exception:
+
+| Never write | Because |
+|---|---|
+| "NHA is explicit that the order is fixed" | The order is fixed. |
+| "NHA says that ID is the unique identification number" | That ID is the unique identification number. |
+| "NHA's document states that the facility remains in draft" | The facility stays in draft. |
+| "NHA states", "NHA gives", "NHA marks", "NHA lists", "NHA describes" | Say the thing. |
+| "NHA's M4 document", "NHA's PHR document", "NHA's collection" | Delete the clause entirely. |
+| "NHA does not say what to do with what you received" | Decide the position and state it, or omit. |
+
+Attribution never adds authority here. It removes it: a reader who is told
+what NHA's document says is being handed a report about ABDM instead of ABDM's
+own instruction.
 
 ### 2. Production-process leakage
 
@@ -56,6 +91,24 @@ an internal note that escaped into production.
 
 The reader cannot act on any of it. If a gap is real and load bearing, say
 what is missing in platform terms and what to do instead, then stop.
+
+**Provenance is tautological.** NHA publishes this portal, so every fact in it
+comes from NHA. Saying where a fact came from adds nothing the reader can use,
+and a section headed "Where this comes from" is nothing but that sentence.
+
+Delete it. Do not relocate it into the paragraph above, do not soften it, and
+do not keep the half that sounds useful. A rewrite that moves the provenance
+somewhere less obvious has not fixed anything.
+
+| Rationalisation | Reality |
+|---|---|
+| "This bit reassures the reader the calls apply to them too." | The portal is ABDM's documentation for that role. Publishing it is the reassurance. |
+| "Naming the source shows our work." | The reader is not reviewing our work. They are integrating. |
+| "It is only one sentence now." | One sentence of provenance is the whole defect, at any length. |
+| "The source is unusual here, so it is worth saying." | Unusual to us, invisible to them. Frontmatter records it. |
+
+The `source:` field in frontmatter already records where an atom came from,
+per atom, for the people who need it. That is the entire provenance budget.
 
 ### 3. Self-doubt in the platform's voice
 
@@ -117,6 +170,60 @@ the outside observer the rest of this skill removes.
 Say "we" only where NHA is genuinely acting on the reader's behalf, and rarely:
 "We issue the token", not "we think", "we believe", "we have not checked".
 
+## The benchmark
+
+[developers.cloudflare.com](https://developers.cloudflare.com) is the standard
+this portal is measured against. It is a platform documenting itself to
+integrators, which is exactly our situation, and it never once tells the reader
+where its facts came from.
+
+Read a page there before writing one here. The patterns worth copying:
+
+**Open with the task, not with context.** "Set up and deploy your first Worker
+with Wrangler, the Cloudflare Developer Platform CLI. This guide will instruct
+you through setting up and deploying your first Worker." Two sentences: what
+you will do, and what the page delivers. No history, no scope note, no
+throat-clearing.
+
+**Headings are the steps.** Their H2s read `Prerequisites`, `1. Create a new
+Worker project`, `2. Develop with Wrangler CLI`, `3. Write code`, `4. Deploy
+your project`, `Next steps`. The table of contents is the procedure. A reader
+who reads only the headings still knows what to do.
+
+**Second person, imperative, short.** "Open a terminal window and run C3." "Go
+to http://localhost:8787 to view your Worker." Sentences run about 12 to 18
+words, well inside our 25 word ceiling. Aim there, not at the ceiling.
+
+**Callouts are titled with the reader's question**, not with a statement:
+"What files did C3 create?", "Browser issues?" Ours are usually titled with an
+assertion. A question is what the stuck reader is actually thinking.
+
+**Constraints are declarative and quantitative.** "Each isolate can consume up
+to 128 MB of memory." "A Worker must parse and execute its global scope within
+1 second." No "may", no "typically", no "generally", and never a note about
+what has not been tested. This is the uncertainty ladder already in practice.
+
+**Differences go in a table, not in prose.** Free versus Paid sits in a
+comparison table, so what you do not get is visible as a number rather than
+explained in a paragraph. Use the same shape for sandbox versus production, for
+mandatory versus optional, and for what a role does and does not implement.
+
+**Unavailable is stated plainly and once.** Deprecated plans get a short note
+saying they are "no longer available for new accounts". No apology, no account
+of how they came to be deprecated.
+
+**Close with Next steps.** A short bulleted list of where to go, every time.
+
+### Translated to our pages
+
+| Ours today | The benchmark |
+|---|---|
+| `## Build in this order` followed by a numbered list | Make each step its own numbered H2 |
+| `:::warning[Without call five the facility does not exist]` | `:::warning[What happens if I skip the submit call?]` |
+| "Which parts are mandatory depends on the facility type" | A table: facility type against what it must submit |
+| "Nothing here has been run against the sandbox" | Delete. State the limit, or omit the claim |
+| A closing paragraph of links in prose | `## Next steps`, bulleted |
+
 ## Review checklist
 
 Reject a draft that trips any of these.
@@ -124,10 +231,13 @@ Reject a draft that trips any of these.
 - [ ] Does a sentence report what a document says, rather than what ABDM does?
 - [ ] Does any prose mention conversion, screenshots, collections, Postman, or
       a missing OpenAPI file?
+- [ ] Does any sentence say where a fact came from, anywhere on the page?
 - [ ] Does any sentence say we have not run, tested, or confirmed something?
 - [ ] Does a heading memorialise a gap ("What did not survive", "What the
       sources give you")?
 - [ ] Is "NHA" used possessively about ABDM's own components?
+- [ ] Does "NHA" appear in body prose at all? Every hit must match one of the
+      three justified cases in the NHA test, or come out.
 - [ ] Would an integrator have to know how this portal was built to understand
       the sentence?
 
