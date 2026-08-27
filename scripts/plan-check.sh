@@ -1,7 +1,9 @@
 #!/bin/sh
-# Fails when the plan has changed but the manifest, the compiled skills, or a
-# cited section id has not kept up. Run in CI and before any plugin release.
-# No deps beyond shasum, sed and grep.
+# Fails when the plan has changed but manifest.json, the gantt's plan_version
+# stamp, a cited section id, or the plan-history archive has not kept up. Run
+# in CI and before any plugin release. The compiled skill stamps are checked
+# separately, in eka-care/abdm-docs at scripts/check-plan-stamp.mjs, since the
+# plugin lives there now. No deps beyond shasum, sed and grep.
 set -e
 cd "$(dirname "$0")/.."
 
