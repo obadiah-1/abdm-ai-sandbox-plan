@@ -97,10 +97,13 @@ Before approving a rendered page:
 - Are previous and next steps visible and correct?
 - Does it read chronologically, no forward references the reader has not met?
 - Any em dash, any "simply", any unexplained acronym? Reject.
+- Does it read as NHA documenting ABDM, or as someone reporting on NHA's
+  documents? Reject the second: see `nha-voice`.
 
 ## Related
 
 - Tooling that renders this: `scalar-docs`
 - Prose rules: `writing-guide`
+- Voice and audience: `nha-voice`
 - What each page body contains: `atom-authoring`
 - Changelog feed: `update-pipeline`
