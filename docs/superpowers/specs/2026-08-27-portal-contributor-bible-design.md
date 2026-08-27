@@ -39,8 +39,10 @@ time, if a check happens to catch it. No check catches "one page, one job".
    describing a repository it cannot see.
 2. This repository becomes plan only. It keeps publishing `manifest.json`,
    which `plan-sync` already fetches over the network.
-3. A deterministic, blocking vetter runs in `abdm-docs` CI. Node, not Python,
-   to match the repository and to reuse `scripts/lib/atoms.mjs`.
+3. One new blocking check runs in `abdm-docs` CI, and it does one thing: it
+   fails when the repository changes and the bible does not. Everything else
+   that needs enforcing is added to the check that already parses the file in
+   question. Node, not Python, to match the repository.
 4. The plugin auto-loads on clone, so a contributor is bound without installing
    anything.
 5. The plugin is agnostic to who is contributing. Routing is by what is being
@@ -66,10 +68,14 @@ class of author. No author class gets different rules.
 
 ## Non-goals
 
-- Rewriting the seven existing checks in `abdm-docs`. They are the mechanical
-  floor and they stay exactly as they are.
-- An agent that reviews pull requests. Rejected in favour of a deterministic
-  gate.
+- Replacing the seven existing checks in `abdm-docs`. They are the mechanical
+  floor. They gain rules, they do not move.
+- A separate vetter script. An earlier draft of this design had one. It was
+  about seventy per cent duplication of checks that already exist, wrapped in
+  a second frontmatter parser that would have been free to disagree with
+  `lint-atoms.mjs`. See "Why there is no vetter" below.
+- An agent that reviews pull requests. Rejected in favour of deterministic
+  gates.
 - Any change to the plan, the plan compiled skills, or the gantt.
 - Phase 2 content: UHI and HIE-CM M4 atoms. Structure only.
 
@@ -94,8 +100,8 @@ abdm-docs/
   catalogue/                     unchanged
   site/                          unchanged
   scripts/
-    vet-change.mjs               the blocking vetter
-    lib/atoms.mjs                reused by it
+    check-bible.mjs              the one new check
+    lib/atoms.mjs                unchanged, still the only atom parser
 ```
 
 The four plan compiled skills still compile from the plan and carry their
@@ -152,45 +158,73 @@ Refusals, in the imperative:
 - Never add a vendor hostname to the core Catalogue.
 - Never claim the work is done without pasting the output of the checks.
 
-### 4. The vetter
+### 4. Changes to the checks that already exist
 
-`abdm-docs/scripts/vet-change.mjs`, run as `npm run vet`, wired into CI as a
-required check. It is diff aware, which is what makes it different from every
-check already there. It reuses `scripts/lib/atoms.mjs` so it cannot disagree
-with `lint-atoms.mjs` about what an atom is.
+Four rules are missing today. Each one lands in the check that already parses
+the file it concerns, so it cannot disagree with that check about what it is
+looking at.
 
-**Rule group A, alignment.** The bible cannot drift from the repository again.
+| Rule | Lands in | Fails when |
+| --- | --- | --- |
+| `verified.evidence` | `lint-atoms.mjs` | `verified.status` is `verified` and the body carries no recorded response block. The `against`, `on` and `by` fields are already required, so this closes the last half of the hole |
+| `spec.stem-unique` | `specs.mjs` | A spec filename stem already exists under another gateway or version. The stem is the served path, so a collision publishes one page over another |
+| `prose.no-vendor-url` | `lint-atoms.mjs` and `lint-content.mjs` | A vendor hostname appears in the core Catalogue. This is a stated DPG principle with no enforcement at all today |
+| `generated.not-hand-edited` | CI, one line | A generated page was edited by hand. `npm run build && git diff --exit-code -- site/docs` catches it, because the build reproduces every generated file |
 
-| Rule | Fails when |
-| --- | --- |
-| `align.plugin-stamp` | A limit, enum or path changed in a linter or in the tree, and no plugin skill changed in the same pull request |
-| `align.skills-copy` | The `.claude/skills/` copy does not match its source in `.claude/plugin/`, under the fallback wiring |
-| `align.plan-stamp` | A plan compiled skill's `plan_version` does not match the published `manifest.json` |
+Roughly twenty lines of new code, spread across three files that already do
+the parsing, plus one line of CI.
 
-`align.plugin-stamp` is the rule that would have caught every row in the drift
-table. It reads the constants out of `lint-atoms.mjs`, `lint-content.mjs` and
+### 5. The one new check
+
+`abdm-docs/scripts/check-bible.mjs`, run as `npm run check:bible`, wired into
+CI as a required check. It is the only rule in this design that no existing
+check can absorb, because it is the only one whose subject is the relationship
+between the repository and the plugin rather than a file in either.
+
+It reads the constants out of `lint-atoms.mjs`, `lint-content.mjs` and
 `lint-agent-readiness.mjs`, walks the live tree for platforms, versions and
-spec files, hashes the result, and compares against a hash stamped in the
-plugin. Changing a limit without updating the bible fails the build.
+spec files, hashes the result, and compares it against a hash stamped in the
+plugin. A limit, enum or path that changes without the bible changing fails
+the build.
 
-**Rule group B, diff aware refusals.** None of these are catchable file by
-file, which is why no existing check catches them.
+This is the rule that would have caught every row in the drift table. It is
+the same shape as `scripts/plan-check.sh`, which already works, so it is a
+pattern being reused rather than invented.
+
+It also carries the two stamp checks, which are the same idea applied to the
+plugin's other source:
 
 | Rule | Fails when |
 | --- | --- |
-| `diff.verified-without-evidence` | `verified.status` moves to `verified` in the diff with no response block added in the same diff |
-| `diff.generated-edited` | A file carrying `generated: true`, or any file under `endpoints/`, is modified by hand |
-| `diff.generated-name-collision` | A hand written page is added at a generated name: `api/index.md`, `api/<module>/errors.md`, `reference/{authentication,callbacks,error-codes}.md` |
-| `diff.spec-stem-collision` | A spec is added whose filename stem already exists under another gateway or version |
-| `diff.vendor-url` | A vendor hostname is added to the core Catalogue |
+| `bible.tree-hash` | The repository's shape changed and no plugin skill changed with it |
+| `bible.plan-stamp` | A plan compiled skill's `plan_version` does not match the published `manifest.json` |
+| `bible.skills-copy` | The `.claude/skills/` copy does not match its source in `.claude/plugin/`, under the fallback wiring only |
 
-**Rule group C, placement.** A file added at a path the tree contract does not
-recognise fails, naming the paths that are valid for that kind of file.
+### 5a. Why there is no vetter
 
-### 5. What the vetter cannot check
+An earlier draft specified `vet-change.mjs`, a separate diff aware script
+carrying eleven rules. Checking each rule against the repository killed it.
 
-Stated in the vetter's own output and in `AGENTS.md`, so the gate is not
-oversold:
+Placement rules duplicated `lint-atoms.mjs`, which already checks an atom's
+type against its folder. Generated name collisions duplicated
+`build-api-reference.mjs`, which already refuses to overwrite a file lacking
+`generated: true`. A bare flip to `verified` was already blocked, because
+`against`, `on` and `by` are already required. What survived was four rules,
+none of which needed a new script, and one alignment rule, which is section 5.
+
+The draft justified the separate script on the grounds that its rules needed
+the diff. That was wrong. Verified without evidence is file local. Stem
+collision is tree local. Vendor URL is file local. A hand edited generated
+file falls out of a rebuild. None of them need the diff, so none of them need
+a script that reads one.
+
+Recorded here because the argument for a second parser is persuasive and will
+be made again.
+
+### 5b. What none of this checks
+
+Stated in `AGENTS.md` and in the plugin's contributor entry, so the gates are
+not oversold:
 
 - Whether a page does one job
 - Whether prose is honest
@@ -198,8 +232,8 @@ oversold:
 - Whether an atom is the right atom to have written
 
 Those stay with the agent while writing, guided by the plugin, and with a human
-at review. A deterministic vetter that claimed to check judgement would be
-worse than one that says plainly what it does not cover.
+at review. A check that claimed to cover judgement would be worse than one that
+says plainly what it does not.
 
 ### 6. Plugin content changes
 
@@ -222,10 +256,11 @@ worse than one that says plainly what it does not cover.
 3. Move the plugin. Split `plan-check.sh`.
 4. Fix the drift the audit found.
 5. Write `page-authoring`. Re-aim the skills listed above.
-6. Build the vetter. Group A first, because it is the rule that keeps the rest
-   true.
+6. Build `check-bible.mjs` first, because it is the rule that keeps the rest
+   true. Then the four additions to the existing checks.
 7. `AGENTS.md` and the `CLAUDE.md` symlink.
-8. Wire the vetter into CI as a required check.
+8. Wire `check:bible` into CI as a required check, and add the rebuild line
+   that catches hand edited generated pages.
 
 Steps 1 to 4 are one pull request in each repository. Steps 5 to 8 follow.
 
@@ -233,10 +268,11 @@ Steps 1 to 4 are one pull request in each repository. Steps 5 to 8 follow.
 
 - **The auto-load assumption fails.** Mitigated by the `.claude/skills/`
   fallback, which is certain. Verified first for that reason.
-- **`align.plugin-stamp` becomes noisy.** A contributor changing a linter now
-  has to touch the plugin too. That is the intended cost. If it fires on
-  changes that are genuinely unrelated, narrow what feeds the hash rather than
-  weakening the rule.
+- **`bible.tree-hash` becomes noisy.** A contributor changing a linter now has
+  to touch the plugin too. That is the intended cost, and it is the rule
+  someone will want weakened the first time it fires inconveniently. If it
+  fires on genuinely unrelated changes, narrow what feeds the hash. Never
+  weaken the rule.
 - **The audit finds more than expected.** Likely. It is sequenced before the
   pipeline work so the scope is known before anything is built on top.
 - **Moving the plugin breaks installed copies.** Anyone on
@@ -250,6 +286,9 @@ Steps 1 to 4 are one pull request in each repository. Steps 5 to 8 follow.
 - Every claim the plugin makes about `abdm-docs` is true, and a check fails if
   one stops being true.
 - A pull request that sets `verified` without evidence, edits a generated file,
-  or collides with a generated name is blocked, whoever opened it and whether
-  or not they used an agent.
+  collides with a generated name, or puts a vendor hostname in the core
+  Catalogue is blocked, whoever opened it and whether or not they used an
+  agent.
+- The new enforcement is one new file and about twenty lines added to checks
+  that already exist. Nothing parses an atom except `lib/atoms.mjs`.
 - The plugin names no organisation as a class of author.
