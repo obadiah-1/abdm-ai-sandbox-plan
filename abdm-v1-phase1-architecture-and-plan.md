@@ -53,7 +53,7 @@ flowchart TB
 | 01 Catalogue | NHA's HIE-CM M1 to M3 endpoints, written as atoms that a first-day developer can read and a compiler can parse (§3) | Nothing downstream is hand-maintained. CI fails if a skill names an endpoint or error the Catalogue does not have. |
 | 02 MCP | Our own Go Docs MCP server: nine read tools over one indexed snapshot of the Catalogue, hybrid keyword plus semantic retrieval (§6) | Retrieval only. Nothing executes against NHA. Every response carries catalogue version and verification status. |
 | 03 Skills | Compiled from atoms. One index skill, per-milestone build/test/debug skills, one plugin bundle. Every skill runs an OODA loop (§4.2) | The compiler may reword, never add facts. |
-| 04 Docs | Docusaurus site with self-hosted Scalar API references, structured after developer.eka.care's flow pages | Stale atoms render a banner; unverified ones say so. |
+| 04 Docs | Docusaurus site with self-hosted Scalar API references, structured after developer.eka.care's flow pages | Unverified atoms say so. The stale banner is designed and not built, along with the watcher that would set `stale` at all (§5). |
 
 Every two days ends with something an integrator can actually use (§8.2).
 
@@ -62,13 +62,13 @@ Every two days ends with something an integrator can actually use (§8.2).
 
 | # | Principle | How it is enforced, not just stated |
 |---|---|---|
-| P1 | Scope is phased and declared, never implied, and what exists is declared separately from what is verified: HIE-CM M1 to M3 carry atoms now, M4 and the PHR modules and UHI carry specifications or pages without atoms, NHCX carries site pages and no atoms (§7) | Catalogue schema keeps the mandatory `gateway` field. The index skill refuses to build if any Phase 1 milestone has zero verified atoms, and `scripts/lint-atoms.mjs` rejects any atom with `gateway: nhcx`. That linter constrains atoms only. It does not constrain site pages, and NHCX site pages exist. |
-| P2 | The documentation is the knowledge base that powers everything | Skills, llms.txt, MCP resources and the support agent are all build outputs of the Catalogue. Nothing is hand-maintained downstream. CI fails if a skill references an endpoint or error code that is not in the Catalogue. |
+| P1 | Scope is phased and declared, never implied, and what exists is declared separately from what is verified: HIE-CM M1 to M3 carry atoms now, M4 and the PHR modules and UHI carry specifications or pages without atoms, NHCX carries site pages and no atoms (§7) | Catalogue schema keeps the mandatory `gateway` field, and `scripts/lint-atoms.mjs` rejects any atom with `gateway: nhcx`. Those two are the whole of P1's mechanised enforcement today. A coverage gate refusing to build when a Phase 1 milestone has zero verified atoms is wanted and is not implemented: nothing in `scripts/` or `.github/` checks verified coverage, so P1's phasing half rests on review rather than on CI. That linter constrains atoms only. It does not constrain site pages, and NHCX site pages exist. |
+| P2 | The documentation is the knowledge base that powers everything | Skills, llms.txt, MCP resources and the support agent are all build outputs of the Catalogue. Nothing is hand-maintained downstream. CI fails if a skill cites an atom id the Catalogue does not define, or a curl target recorded on no atom, in `scripts/validate-skills.mjs`. It does not yet check every error code a skill names. |
 | P3 | No em dashes anywhere, write like a person | A lint rule in CI blocks any U+2014 character. A writing guide (§3.5) is part of the repo and the skill-compiler prompt. |
 | P4 | Human readable and machine readable from one source, not two versions | Typed atoms with frontmatter plus structured blocks inside prose (§3). One file, many renderings. |
 | P5 | Fool, idiot and dummy proof | Every atom must carry the five dummy-proof fields (§3.4) or CI rejects it. A "first-day developer" test is part of the definition of done (§9). |
 | P6 | FOSS, replicable, no Eka dependency, no vendor cloud | Catalogue in a public git repo under a neutral licence, copyright NHA. Everything self-hosted from day one: Docusaurus with the MIT Scalar packages vendored (no CDN, no Scalar cloud services, telemetry off), our own Go MCP server, embeddings from a self-hosted Ollama sidecar. The handover unit is one compose file. No `eka.care` URL anywhere in the core Catalogue. Eka-specific content, if any, lives in a separate overlay repo. |
-| P7 | Update once, everything moves | A source watcher opens a pull request when NHA changes a spec. Merge triggers docs publish, skill recompile, plugin version bump (§5). |
+| P7 | Update once, everything moves | Designed, not built. A source watcher is to open a pull request when NHA changes a spec, and merge is to trigger docs publish, skill recompile and plugin version bump. `scripts/check-source-freshness.mjs` runs in CI today and fails on a changed raw hash, which is the detection half; the pull request half does not exist yet (§5). |
 
 ---
 
@@ -619,7 +619,7 @@ flowchart TD
 | Docusaurus guides and Scalar references are two rendering systems on one site | Keep prose in plain markdown, avoid MDX beyond callouts and steps, so it ports anywhere; specs stay the single source under `catalogue/openapi/` | Decided: fully self-hosted from day one, no hosted-Scalar phase |
 | abdm-docs.pages.dev overlaps heavily | Reach out to OHCN before 26 August; propose the Catalogue as the shared upstream | Product to make the call and the call |
 | Ten days is not enough for three gateways at full depth | Atom depth in Phase 1 is HIE-CM M1 to M3 only. M4, the PHR modules and UHI stay at specification and generated page depth, and NHCX stays at site page depth with its atoms rejected by lint (§7) | Already decided in this document, needs sign-off |
-| LLM prose pass invents facts | Validator diffs every identifier against the Catalogue; any new token fails | None, it is a hard rule |
+| LLM prose pass invents facts | `scripts/validate-skills.mjs` fails the build on any cited atom id the Catalogue does not define and any curl target recorded on no atom. It does not diff every token, so a fabricated sentence carrying no identifier still gets through | Residual, and it is why the compiled skills still need a reader |
 | The Docs MCP is public with no auth in V1 | Read-only server over public docs; rate limiting at the reverse proxy; Ollama sidecar never exposed | Add auth and quotas only when abuse is observed |
 | Ollama sidecar down at query time | Search degrades to keyword-only by design; `/healthz` reports `embeddings: false` | None, the degradation is tested |
 | Sandbox credentials take three to four days | Apply on 24 August, in parallel with schema work | Shyamjith applies today |
